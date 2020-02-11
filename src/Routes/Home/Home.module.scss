@@ -1,5 +1,61 @@
 @import "src/global";
 
-.title {
-  color: $primary-color;
+.container {
+  height: 100%;
+}
+
+$header-height: 70px;
+$footer-height: 50px;
+$main-height: calc(100% - #{$header-height + $footer-height});
+
+header {
+  height: $header-height;
+  line-height: $header-height;
+  padding-left: 20px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+footer {
+  height: $footer-height;
+  line-height: $footer-height;
+  text-align: center;
+  > a {
+    all: unset;
+    font-weight: bold;
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}
+
+main {
+  display: grid;
+  width: 100%;
+  height: $main-height;
+  grid-template-columns: repeat(auto-fill, 100px);
+  grid-auto-rows: 130px;
+  place-content: start space-evenly;
+  > a {
+    all: unset;
+    display: block;
+    $a-pad: 12px;
+    padding: $a-pad;
+    cursor: pointer;
+    > img {
+      display: block;
+      width: 100%;
+      background-color: white;
+      border-radius: 20px;
+    }
+    > span {
+      display: block;
+      position: relative;
+      left: -$a-pad;
+      width: calc(100% + #{$a-pad * 2});
+      margin-top: 5px;
+      text-align: center;
+    }
+  }
 }
