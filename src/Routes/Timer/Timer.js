@@ -1,6 +1,11 @@
 import React from "react";
-import "./Timer.scss";
+import styles from "./Timer.module.scss";
 
 export default function() {
-  return <p>Timer</p>;
+  return (
+    <div className={styles.container}>
+      <header>Timer</header>
+      <main>Hello</main>
+    </div>
+  );
 }

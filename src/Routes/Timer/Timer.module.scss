@@ -1,0 +1,18 @@
+@import "src/global";
+
+.container {
+  $header-height: 70px;
+  $main-height: calc(100% - #{$header-height});
+
+  header {
+    height: $header-height;
+    line-height: $header-height;
+    padding-left: 20px;
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  main {
+    height: $main-height;
+  }
+}

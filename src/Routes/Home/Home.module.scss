@@ -1,0 +1,63 @@
+@import "src/global";
+
+.container {
+  $header-height: 70px;
+  $footer-height: 50px;
+  $main-height: calc(100% - #{$header-height + $footer-height});
+
+  $icon-size: 100px;
+
+  $icon-padding: 12px;
+
+  header {
+    height: $header-height;
+    line-height: $header-height;
+    padding-left: 20px;
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  footer {
+    height: $footer-height;
+    line-height: $footer-height;
+    text-align: center;
+    > a {
+      all: unset;
+      font-weight: bold;
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  main {
+    display: grid;
+    width: 100%;
+    height: $main-height;
+    grid-template-columns: repeat(auto-fill, $icon-size);
+    grid-auto-rows: $icon-size + 30px;
+    place-content: start space-evenly;
+    > a {
+      all: unset;
+      display: block;
+      padding: $icon-padding;
+      cursor: pointer;
+      > img {
+        display: block;
+        width: $icon-size - $icon-padding * 2;
+        height: $icon-size - $icon-padding * 2;
+        background-color: white;
+        border-radius: 20px;
+      }
+      > span {
+        display: block;
+        position: relative;
+        left: -$icon-padding;
+        width: calc(100% + #{$icon-padding * 2});
+        margin-top: 5px;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -1,11 +1,11 @@
 import React from "react";
-import "./Home.scss";
+import styles from "./Home.module.scss";
 import { Link } from "react-router-dom";
 
 export default function() {
   const apps = ["Timer", "Stopwatch", "Speedometer", "Something", "Else", "And so on"];
   return (
-    <div>
+    <div className={styles.container}>
       <header>Web Apps</header>
       <main>
         {/* <Link to="timer">Timer</Link> */}
