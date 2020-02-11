@@ -1,4 +1,4 @@
-@import "global";
+@import "src/global";
 
 html,
 body,
@@ -10,6 +10,10 @@ body,
   height: 100%;
   background: $global-bg;
   color: $global-text-color;
+  > * {
+    width: 100%;
+    height: 100%;
+  }
   *::selection {
     background-color: transparent;
   }
