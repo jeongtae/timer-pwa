@@ -1,12 +1,12 @@
 @import "src/global";
 
-.container {
-  height: 100%;
-}
-
 $header-height: 70px;
 $footer-height: 50px;
 $main-height: calc(100% - #{$header-height + $footer-height});
+
+div {
+  height: 100%;
+}
 
 header {
   height: $header-height;
