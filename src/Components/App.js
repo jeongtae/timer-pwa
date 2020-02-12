@@ -3,9 +3,9 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "Routes/Home";
 import Timer from "Routes/Timer";
 
-function App() {
+export default function App() {
   return (
-    <Router basename="webapps">
+    <Router>
       <Switch>
         <Route exact={true} path={"/"} component={Home} />
         <Route path={"/timer"} component={Timer} />
@@ -13,5 +13,3 @@ function App() {
     </Router>
   );
 }
-
-export default App;
