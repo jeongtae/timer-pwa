@@ -1,37 +1,63 @@
 import React, { createContext, useState, useContext } from "react";
+//import {usePrevious} from "Hooks"
 
-const Context = createContext();
+let loopId = 0;
+let destTime = 0;
 
-const TimerProvider = ({ children }) => {
-  const [state, setState] = useState({
-    timeDuration: 30,
-    timeLeft: 30,
+const context = createContext();
+export const useTimerContext = () => useContext(context);
 
-    state: "stop", // "running", "pause", "done"
+const Provider = context.Provider;
+export const TimerProvider = ({ children }) => {
+  const states = {
+    total: useState(5),
+    left: useState(5),
+    state: useState("stop")
+  };
 
+  const actions = {
+    setTimer(seconds) {
+      const { setTotal } = states;
+      setTotal(seconds);
+    },
     startTimer() {
-      setState({
-        ...state,
-        state: "start"
-      });
+      const { state, setState, left, setLeft, total } = states;
+      // change current state
+      setState("running");
+      // set destination time
+      destTime = Date.now() + 1000 * (state !== "done" ? left : total);
+      // start loop
+      clearInterval(loopId);
+      loopId = setInterval(() => {
+        const newLeft = Math.ceil((destTime - Date.now()) / 1000);
+        if (newLeft === 0 && state !== "done") {
+          setState("done");
+        }
+        setLeft(newLeft);
+      }, 10);
     },
     pauseTimer() {
-      setState({
-        ...state,
-        state: "pause"
-      });
+      const { setState, left, total } = states;
+      // change current state
+      setState(left === total ? "stop" : "pause");
+      // forget destination time
+      destTime = 0;
+      // stop loop
+      clearInterval(loopId);
+      loopId = 0;
     },
     resetTimer() {
-      setState({
-        ...state,
-        state: "stop",
-        timeLeft: state.timeDuration
-      });
+      const { setState, setLeft, total } = states;
+      setState("stop");
+      setLeft(total);
+      clearInterval(loopId);
     }
+  };
+
+  Object.entries(states).forEach(([stateName, [state, setState]]) => {
+    states[stateName] = state;
+    states[`set${stateName.charAt(0).toUpperCase()}${stateName.slice(1)}`] = setState;
   });
-  return <Context.Provider value={state}>{children}</Context.Provider>;
+
+  return <Provider value={{ states, actions }}>{children}</Provider>;
 };
-
-const useTimerContext = () => useContext(Context);
-
-export { TimerProvider, useTimerContext };
