@@ -1,3 +1,1 @@
-import { TimerProvider, useTimerContext } from "./TimerContext";
-
-export { TimerProvider, useTimerContext };
+export { TimerProvider, useTimerContext } from "./TimerContext";
