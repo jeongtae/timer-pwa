@@ -1,27 +1,24 @@
-import React, { createContext, useState, useContext } from "react";
-//import {usePrevious} from "Hooks"
+// import React, { createContext, useState, useContext } from "react";
+import createContext from "./createContext";
 
 let loopId = 0;
 let destTime = 0;
 
-const context = createContext();
-export const useTimerContext = () => useContext(context);
-
-const Provider = context.Provider;
-export const TimerProvider = ({ children }) => {
-  const states = {
-    total: useState(5),
-    left: useState(5),
-    state: useState("stop")
-  };
-
-  const actions = {
-    setTimer(seconds) {
+export const { useContext: useTimerContext, ContextProvider: TimerProvider } = createContext(
+  {
+    // states
+    total: 5,
+    left: 5,
+    state: "stop"
+  },
+  {
+    // actions
+    setTimer(states, seconds) {
       const { setTotal } = states;
       setTotal(seconds);
     },
-    startTimer() {
-      const { state, setState, left, setLeft, total } = states;
+    startTimer(states) {
+      const { state, setState, left, setLeft, total, setMultiple } = states;
       // change current state
       setState("running");
       // set destination time
@@ -31,12 +28,15 @@ export const TimerProvider = ({ children }) => {
       loopId = setInterval(() => {
         const newLeft = Math.ceil((destTime - Date.now()) / 1000);
         if (newLeft === 0 && state !== "done") {
-          setState("done");
+          setMultiple({ state: "done", left: newLeft });
+          // setState("done");
+          // setLeft(newLeft);
+        } else {
+          setLeft(newLeft);
         }
-        setLeft(newLeft);
       }, 10);
     },
-    pauseTimer() {
+    pauseTimer(states) {
       const { setState, left, total } = states;
       // change current state
       setState(left === total ? "stop" : "pause");
@@ -46,18 +46,11 @@ export const TimerProvider = ({ children }) => {
       clearInterval(loopId);
       loopId = 0;
     },
-    resetTimer() {
+    resetTimer(states) {
       const { setState, setLeft, total } = states;
       setState("stop");
       setLeft(total);
       clearInterval(loopId);
     }
-  };
-
-  Object.entries(states).forEach(([stateName, [state, setState]]) => {
-    states[stateName] = state;
-    states[`set${stateName.charAt(0).toUpperCase()}${stateName.slice(1)}`] = setState;
-  });
-
-  return <Provider value={{ states, actions }}>{children}</Provider>;
-};
+  }
+);
