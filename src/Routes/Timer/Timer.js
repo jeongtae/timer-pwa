@@ -3,33 +3,57 @@ import styles from "./Timer.module.scss";
 import { useTimerContext } from "Contexts";
 
 export default function() {
-  const { state, startTimer, pauseTimer, resetTimer } = useTimerContext();
+  const Timer = () => {
+    const {
+      states: { left }
+    } = useTimerContext();
 
-  // Click event handler
-  const onClickStart = e => {
-    if (state === "start") {
-      pauseTimer();
-    } else {
-      startTimer();
-    }
+    return <span>{left}</span>;
   };
 
-  // Click event handler
-  const onClickReset = e => {
-    resetTimer();
+  const StartButton = () => {
+    const {
+      states: { state },
+      actions: { startTimer, pauseTimer }
+    } = useTimerContext();
+
+    const texts = { stop: "Start", running: "Pause", pause: "Continue", done: "Restart" };
+    const onClick = () => {
+      if (state === "running") {
+        pauseTimer();
+      } else {
+        startTimer();
+      }
+    };
+
+    return <button onClick={onClick}>{texts[state]}</button>;
+  };
+
+  const ResetButton = () => {
+    const {
+      states: { state },
+      actions: { resetTimer }
+    } = useTimerContext();
+
+    const disabled = state === "stop";
+    const onClick = () => {
+      resetTimer();
+    };
+
+    return (
+      <button onClick={onClick} disabled={disabled}>
+        Reset
+      </button>
+    );
   };
 
   return (
     <div className={styles.container}>
       <header>Timer</header>
       <main>
-        <span />
-        <button onClick={onClickStart}>
-          {state === "stop" ? "Start" : state === "start" ? "Pause" : "Continue"}
-        </button>
-        <button onClick={onClickReset} disabled={state === "stop"}>
-          Reset
-        </button>
+        <Timer />
+        <StartButton />
+        <ResetButton />
       </main>
     </div>
   );
