@@ -12,12 +12,12 @@ export default function(states, actions) {
   const reactContext = createReactContext();
   const useContext = () => useReactContext(reactContext);
 
-  // replace actions
-  const replacedActions = {};
-  let replacedStates = {};
+  // wrap actions
+  const wrappedActions = {};
+  let statesForAction = {};
   Object.entries(givenActions).forEach(([actionName, action]) => {
-    replacedActions[actionName] = (...params) => {
-      action(replacedStates, ...params);
+    wrappedActions[actionName] = (...params) => {
+      action(statesForAction, ...params);
     };
   });
 
@@ -26,27 +26,30 @@ export default function(states, actions) {
   const ContextProvider = ({ children }) => {
     const [states, setStates] = useState(givenStates);
 
-    // replace states
-    replacedStates = { ...states }; // change states reference for actions
-    for (const key in states) {
-      // add setter
-      replacedStates[`set${key.charAt(0).toUpperCase()}${key.slice(1)}`] = param => {
-        const oldState = states[key];
+    // add state setters
+    statesForAction = { ...states }; // change states reference for actions
+    for (const stateName in states) {
+      // add setter for each states
+      const capitalizedName = `${stateName.charAt(0).toUpperCase()}${stateName.slice(1)}`;
+      // eslint-disable-next-line
+      statesForAction[`set${capitalizedName}`] = param => {
+        const oldState = states[stateName];
         const newState = typeof param === "function" ? param(oldState) : param;
         if (oldState !== newState) {
-          setStates({ ...states, [key]: newState });
-          states[key] = newState;
+          setStates({ ...states, [stateName]: newState });
+          states[stateName] = newState;
+          statesForAction[stateName] = newState;
         }
       };
     }
     // add setter that changes multiple states at once
-    replacedStates.setMultiple = param => {
+    statesForAction.setMultiple = param => {
       const oldStates = states;
       const statesToSet = typeof param === "function" ? param(oldStates) : param;
       // compare with old states
       let isDiffer = false;
-      for (const key in statesToSet) {
-        if (key in oldStates && statesToSet[key] !== oldStates[key]) {
+      for (const stateName in statesToSet) {
+        if (stateName in oldStates && statesToSet[stateName] !== oldStates[stateName]) {
           isDiffer = true;
           break;
         }
@@ -54,14 +57,15 @@ export default function(states, actions) {
       // if it is different
       if (isDiffer) {
         setStates({ ...oldStates, ...statesToSet });
-        for (const key in statesToSet) {
-          states[key] = statesToSet[key];
+        for (const stateName in statesToSet) {
+          states[stateName] = statesToSet[stateName];
+          statesForAction[stateName] = statesToSet[stateName];
         }
       }
     };
 
     return (
-      <ReactProvider value={{ states: states, actions: replacedActions }}>{children}</ReactProvider>
+      <ReactProvider value={{ states: states, actions: wrappedActions }}>{children}</ReactProvider>
     );
   };
 
