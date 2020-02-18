@@ -1,2 +1,32 @@
 $global-bg: #222;
 $global-text-color: #fff;
+
+@mixin animation(
+  $duration: 1s,
+  // linear, ease, ease-in, ease-out, ease-in-out, step-start, step-end, steps(), cubic-bezier()
+    $timing-function: linear,
+  $delay: 0s,
+  // infinite
+    $iteration-count: 1,
+  // normal, reverse, alternate, alternate-reverse
+    $direction: normal,
+  // none, forwards, backwards, both
+    $fill-mode: none,
+  // running, paused
+    $play-state: running
+) {
+  $unique-name: unique-id();
+  animation-name: $unique-name;
+  animation-duration: $duration;
+  animation-timing-function: $timing-function;
+  animation-delay: $delay;
+  animation-iteration-count: $iteration-count;
+  animation-direction: $direction;
+  animation-fill-mode: $fill-mode;
+  animation-play-state: $play-state;
+  @at-root {
+    @keyframes #{$unique-name} {
+      @content;
+    }
+  }
+}
