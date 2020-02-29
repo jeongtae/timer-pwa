@@ -1,7 +1,6 @@
 import React from "react";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
-import { Home, Timer } from "Routes";
 import { TimerProvider } from "Contexts";
+import { Timer } from "Routes";
 
 const MultiProvider = ({ providers = [], children }) => {
   const reducer = (previous, provider) => React.createElement(provider, { children: previous });
@@ -12,12 +11,7 @@ const MultiProvider = ({ providers = [], children }) => {
 export default function App() {
   return (
     <MultiProvider providers={[TimerProvider]}>
-      <Router>
-        <Switch>
-          <Route exact={true} path={"/"} component={Home} />
-          <Route path={"/timer"} component={Timer} />
-        </Switch>
-      </Router>
+      <Timer />
     </MultiProvider>
   );
 }
