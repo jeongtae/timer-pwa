@@ -3,7 +3,7 @@ $global-text-color: #fff;
 
 @mixin animation(
   $duration: 1s,
-  // linear, ease, ease-in, ease-out, ease-in-out, step-start, step-end, steps(), cubic-bezier()
+  // ease, linear, ease-in, ease-out, ease-in-out, step-start, step-end, steps(), cubic-bezier()
     $timing-function: linear,
   $delay: 0s,
   // infinite
