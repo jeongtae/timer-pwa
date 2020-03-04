@@ -2,7 +2,7 @@ import React from "react";
 import { PickerItemProps } from "./Types";
 import "./Picker.css";
 
-const PickerItem: React.FC<PickerItemProps> = ({ children, value }) => {
+const PickerItem: React.FC<PickerItemProps> = ({ children }) => {
   return (
     <div // Item div
       className="picker-item"
