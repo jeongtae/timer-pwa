@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useMemo } from "react";
+import { useLifecycles } from "react-use";
 import { PickerProps, PickerOnChangeEventHandler, PickerItemValue } from "./Types";
 import "./Picker.css";
 
@@ -223,28 +224,33 @@ function Picker({ children, selected, onChange, className }: PickerProps) {
   };
 
   // Register the side effects
-  useEffect(() => {
-    // register events
-    const root = rootRef.current as HTMLDivElement;
-    for (const [name, listener] of Object.entries(Listeners)) {
-      // the `passive` option must be `false` when calling `preventDefault` inside of the event.
-      const hasPreventDefault = name.indexOf("move") >= 0;
-      const option: AddEventListenerOptions = { passive: !hasPreventDefault };
-      root.addEventListener(name, listener as any, option);
-    }
-    // scroll to initial position
-    if (selected !== undefined) {
-      Worker.scrollToValue(selected);
-    } else {
-      Worker.scrollToIndex(0);
-    }
-    return () => {
+  useLifecycles(
+    // on mount
+    () => {
+      // register events
+      const root = rootRef.current as HTMLDivElement;
+      for (const [name, listener] of Object.entries(Listeners)) {
+        // the `passive` option must be `false` when calling `preventDefault` inside of the event.
+        const hasPreventDefault = name.indexOf("move") >= 0;
+        const option: AddEventListenerOptions = { passive: !hasPreventDefault };
+        root.addEventListener(name, listener as any, option);
+      }
+      // scroll to initial position
+      if (selected !== undefined) {
+        Worker.scrollToValue(selected);
+      } else {
+        Worker.scrollToIndex(0);
+      }
+    },
+    // on unmount
+    () => {
+      const root = rootRef.current as HTMLDivElement;
       Worker.killAnimation();
       for (const [name, listener] of Object.entries(Listeners)) {
         root.removeEventListener(name, listener as any);
       }
-    };
-  }, [Listeners]);
+    }
+  );
 
   // Render the elements
   return (
