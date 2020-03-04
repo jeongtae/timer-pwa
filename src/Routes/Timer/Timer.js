@@ -39,8 +39,8 @@ export default function() {
   } = useTimerContext();
 
   return (
-    <S.FlexContainer>
-      <S.UpperFlex>
+    <S.Container>
+      <S.UpperDivision>
         {state === "stop" ? (
           <S.Pickers>
             <S.Picker
@@ -85,8 +85,8 @@ export default function() {
         ) : (
           <S.Timer small={left >= 3600}>{format(left)}</S.Timer>
         )}
-      </S.UpperFlex>
-      <S.LowerFlex>
+      </S.UpperDivision>
+      <S.LowerDivision>
         <S.ControlButton disabled={state === "stop"} onClick={resetTimer}>
           <FontAwesomeIcon icon={faTimes} />
         </S.ControlButton>
@@ -100,7 +100,7 @@ export default function() {
             <FontAwesomeIcon icon={faPause} />
           )}
         </S.ControlButton>
-      </S.LowerFlex>
-    </S.FlexContainer>
+      </S.LowerDivision>
+    </S.Container>
   );
 }

@@ -2,21 +2,14 @@ import styled from "styled-components";
 import { lighten, darken, rgba } from "polished";
 import picker from "Components/Picker";
 
-export const FlexContainer = styled.div`
-  height: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-`;
-
-export const UpperFlex = styled.div`
+export const UpperDivision = styled.div`
   flex-basis: 200px;
   flex-grow: 2;
   display: flex;
   justify-content: center;
 `;
 
-export const LowerFlex = styled.div`
+export const LowerDivision = styled.div`
   flex-grow: 1;
   display: flex;
   padding: 0 5vw;
@@ -122,3 +115,10 @@ export const ControlButton = styled.button`
 ControlButton.defaultProps = {
   appearance: "default"
 };
+
+export const Container = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+`;
