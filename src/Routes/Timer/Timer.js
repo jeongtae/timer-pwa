@@ -1,103 +1,106 @@
 import React from "react";
-import styles from "./Timer.module.scss";
+import * as S from "./Timer.style";
 import { useTimerContext } from "Contexts";
+import { PickerItem } from "Components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
+
+const getHours = totalSeconds => Math.floor(totalSeconds / 3600);
+const getMinutes = totalSeconds => Math.floor(totalSeconds / 60) % 60;
+const getSeconds = totalSeconds => totalSeconds % 60;
+
+const format = totalSeconds => {
+  const isNegative = totalSeconds < 0;
+  if (isNegative) {
+    totalSeconds = -totalSeconds;
+  }
+  const [h, m, s] = [
+    getHours(totalSeconds),
+    getMinutes(totalSeconds),
+    getSeconds(totalSeconds)
+  ].map(num => num.toString());
+  let result = `${h.padStart(2, "0")}:${m.padStart(2, "0")}:${s.padStart(2, "0")}`;
+  if (h === "0") {
+    result = result.slice(3);
+  }
+  if (isNegative) {
+    result = "-" + result;
+  }
+  return result;
+};
+
+const zeroTo59 = [...Array(60).keys()];
+const zeroTo23 = zeroTo59.slice(0, 24);
 
 export default function() {
-  const Timer = () => {
-    const {
-      states: { state, left, total, progress }
-    } = useTimerContext();
-    const format = seconds => {
-      const isNegative = seconds < 0;
-      if (isNegative) {
-        seconds = -seconds;
-      }
-      const [h, m, s] = [Math.floor(seconds / 3600), Math.floor(seconds / 60) % 60, seconds % 60];
-
-      const ms = `${m < 10 ? "0" : ""}${m}:${s < 10 ? "0" : ""}${s}`;
-      if (h > 0) {
-        return `${isNegative ? "-" : ""}${h < 10 ? "0" : ""}${h}:${ms}`;
-      } else {
-        return `${isNegative ? "-" : ""}${ms}`;
-      }
-    };
-
-    if (state === "stop") {
-      return (
-        <>
-          <span>{format(total)}</span>
-        </>
-      );
-    } else {
-      const spanStyles = [];
-      if (state === "done") spanStyles.push(styles.flash);
-      if (left >= 3600) spanStyles.push(styles.small);
-      return (
-        <>
-          <progress className={state === "done" ? styles.done : null} value={progress} />
-          {/* <span className={state === "done" ? styles.flash : null}>{format(left)}</span> */}
-          <span className={spanStyles.join(" ")}>{format(left)}</span>
-        </>
-      );
-    }
-  };
-
-  const StartButton = () => {
-    const {
-      states: { state },
-      actions: { startTimer, pauseTimer }
-    } = useTimerContext();
-
-    const texts = { stop: "Start", running: "Pause", pause: "Continue", done: "Restart" };
-    const classes = {
-      stop: styles.green,
-      running: styles.orange,
-      pause: styles.orange,
-      done: styles.green
-    };
-    const onClick = () => {
-      if (state === "running") {
-        pauseTimer();
-      } else {
-        startTimer();
-      }
-    };
-
-    return (
-      <button onClick={onClick} className={classes[state]}>
-        {texts[state]}
-      </button>
-    );
-  };
-
-  const ResetButton = () => {
-    const {
-      states: { state },
-      actions: { resetTimer }
-    } = useTimerContext();
-
-    const disabled = state === "stop";
-    const onClick = () => {
-      resetTimer();
-    };
-
-    return (
-      <button onClick={onClick} disabled={disabled}>
-        Reset
-      </button>
-    );
-  };
+  const {
+    states: { state, left, total, progress },
+    actions: { setTimer, pauseTimer, startTimer, resetTimer }
+  } = useTimerContext();
 
   return (
-    <div className={styles.container}>
-      <header>Timer</header>
-      <main>
-        <Timer />
-        <div>
-          <ResetButton />
-          <StartButton />
-        </div>
-      </main>
-    </div>
+    <S.FlexContainer>
+      <S.UpperFlex>
+        {state === "stop" ? (
+          <S.Pickers>
+            <S.Picker
+              selected={getHours(total)}
+              onChange={hours => {
+                setTimer(hours * 3600 + getMinutes(total) * 60 + getSeconds(total));
+              }}
+            >
+              {zeroTo23.map((v, i) => (
+                <PickerItem value={v} key={i}>
+                  {v}
+                </PickerItem>
+              ))}
+            </S.Picker>
+            :
+            <S.Picker
+              selected={getMinutes(total)}
+              onChange={minutes => {
+                setTimer(getHours(total) * 3600 + minutes * 60 + getSeconds(total));
+              }}
+            >
+              {zeroTo59.map((v, i) => (
+                <PickerItem value={v} key={i}>
+                  {v}
+                </PickerItem>
+              ))}
+            </S.Picker>
+            :
+            <S.Picker
+              selected={getSeconds(total)}
+              onChange={seconds => {
+                setTimer(getHours(total) * 3600 + getMinutes(total) * 60 + seconds);
+              }}
+            >
+              {zeroTo59.map((v, i) => (
+                <PickerItem value={v} key={i}>
+                  {v}
+                </PickerItem>
+              ))}
+            </S.Picker>
+          </S.Pickers>
+        ) : (
+          <S.Timer small={left >= 3600}>{format(left)}</S.Timer>
+        )}
+      </S.UpperFlex>
+      <S.LowerFlex>
+        <S.ControlButton disabled={state === "stop"} onClick={resetTimer}>
+          <FontAwesomeIcon icon={faTimes} />
+        </S.ControlButton>
+        <S.ControlButton
+          appearance={state !== "running" ? "start" : "stop"}
+          onClick={state !== "running" ? startTimer : pauseTimer}
+        >
+          {state !== "running" ? (
+            <FontAwesomeIcon icon={faPlay} />
+          ) : (
+            <FontAwesomeIcon icon={faPause} />
+          )}
+        </S.ControlButton>
+      </S.LowerFlex>
+    </S.FlexContainer>
   );
 }
