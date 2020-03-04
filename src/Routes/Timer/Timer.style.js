@@ -121,4 +121,9 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
+  @media screen and (orientation: landscape) and (max-height: 600px) {
+    ${UpperDivision} {
+      background: red;
+    }
+  }
 `;
