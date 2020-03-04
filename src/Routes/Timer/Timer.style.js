@@ -2,6 +2,15 @@ import styled from "styled-components";
 import { lighten, darken, rgba } from "polished";
 import picker from "Components/Picker";
 
+// const mediaIsLandscape = "screen and (orientation: landscape) and (max-height: 600px)";
+
+export const Container = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+`;
+
 export const UpperDivision = styled.div`
   flex-basis: 200px;
   flex-grow: 2;
@@ -115,15 +124,3 @@ export const ControlButton = styled.button`
 ControlButton.defaultProps = {
   appearance: "default"
 };
-
-export const Container = styled.div`
-  height: 100%;
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  @media screen and (orientation: landscape) and (max-height: 600px) {
-    ${UpperDivision} {
-      background: red;
-    }
-  }
-`;
