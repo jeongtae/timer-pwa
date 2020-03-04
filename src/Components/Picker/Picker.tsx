@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useMemo, useCallback } from "react";
+import React, { useRef, useEffect, useMemo } from "react";
 import { PickerProps, PickerOnChangeEventHandler, PickerItemValue } from "./Types";
-import PickerItem from "./PickerItem";
+import "./Picker.css";
 
 function createWorker(
   rootRef: React.RefObject<HTMLElement>,
@@ -169,7 +169,7 @@ function createWorker(
   };
 }
 
-function Picker({ children, className, style, selected, onChange }: PickerProps) {
+function Picker({ children, selected, onChange, className }: PickerProps) {
   // div references
   const rootRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -250,27 +250,11 @@ function Picker({ children, className, style, selected, onChange }: PickerProps)
   return (
     <div // Root div
       ref={rootRef}
-      className={className}
-      style={{
-        width: className || "100%",
-        height: className || 100,
-        ...style,
-        position: "relative",
-        padding: 0,
-        overflow: "hidden"
-      }}
+      className={["picker-root", className].join(" ")}
     >
       <div // Content div
         ref={contentRef}
-        style={{
-          width: "100%",
-          position: "absolute",
-          margin: 0,
-          padding: 0,
-          top: 0,
-          left: 0,
-          zIndex: 1
-        }}
+        className="picker-content"
       >
         {children}
       </div>

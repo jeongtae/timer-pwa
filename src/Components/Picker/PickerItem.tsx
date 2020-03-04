@@ -1,18 +1,11 @@
 import React from "react";
 import { PickerItemProps } from "./Types";
+import "./Picker.css";
 
 const PickerItem: React.FC<PickerItemProps> = ({ children, value }) => {
   return (
     <div // Item div
-      style={{
-        textAlign: "center",
-        position: "relative",
-        width: "100%",
-        height: "34px",
-        fontSize: "1em",
-        lineHeight: "34px",
-        margin: 0
-      }}
+      className="picker-item"
     >
       {children}
     </div>

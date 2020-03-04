@@ -4,10 +4,9 @@ export type PickerOnChangeEventHandler = (value: PickerItemValue) => void;
 
 export interface PickerProps {
   children?: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
   selected?: PickerItemValue;
   onChange?: PickerOnChangeEventHandler;
+  className?: string;
 }
 
 export interface PickerItemProps {
