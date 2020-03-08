@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { PickerProps } from "./Types";
+import { PickerProps, PickerItemValue } from "./Types";
 import "./Picker.css";
 
 function Picker({ children, selectedValue, onChangeValue, className }: PickerProps) {
@@ -13,22 +13,69 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
     const rootRect = root.getBoundingClientRect();
     const contentRect = content.getBoundingClientRect();
 
-    // Items data
-    const itemValues = React.Children.map(children, ({ props }) => props.value);
-    const initialIndex = selectedValue !== undefined ? itemValues.indexOf(selectedValue) : 0;
-    const itemsCount = itemValues.length;
-    const itemHeight = contentRect.height / itemsCount;
+    // Items closures
+    const Items = (function IIFE() {
+      const values = React.Children.map(children, ({ props }) => props.value);
+      const count = values.length;
+      const totalHeight = contentRect.height;
+      const height = totalHeight / count;
+      const initialIndex = selectedValue !== undefined ? values.indexOf(selectedValue) : 0;
+      return {
+        valueOfIndex(index: number) {
+          return values[index];
+        },
+        indexOfValue(value: PickerItemValue) {
+          return values.indexOf(value);
+        },
+        getCount() {
+          return count;
+        },
+        getOnesHeight() {
+          return height;
+        },
+        getTotalHeight() {
+          return totalHeight;
+        },
+        getInitialIndex() {
+          return initialIndex;
+        }
+      };
+    })();
+
+    // Momentum-based Scroll closures
+    const MomentumScroll = (function IIFE() {
+      let rafHandle = 0;
+      return {
+        start(velocity: number) {
+          rafHandle = window.requestAnimationFrame(function loop() {
+            // TODO do something here
+            if (true) {
+              rafHandle = window.requestAnimationFrame(loop);
+            } else {
+              rafHandle = 0;
+            }
+          });
+        },
+        stop() {
+          window.cancelAnimationFrame(rafHandle);
+          rafHandle = 0;
+        },
+        isScrolling() {
+          return rafHandle !== 0;
+        }
+      };
+    })();
 
     // Scroll closures
     const Scroll = (function IIFE() {
-      const zero = -(rootRect.height - itemHeight) / 2;
+      const zero = -(rootRect.height - Items.getOnesHeight()) / 2;
       let current: number;
       return {
-        getCurrent(): number {
+        getCurrentPosition(): number {
           return current;
         },
         getCurrentItemIndex(): number {
-          return current / itemHeight;
+          return current / Items.getOnesHeight();
         },
         to(y: number) {
           current = y;
@@ -38,17 +85,45 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
           this.to(current + y);
         },
         toItemIndex(index: number) {
-          this.to(itemHeight * index);
+          this.to(Items.getOnesHeight() * index);
         }
       };
     })();
+    // scroll to first position
+    Scroll.toItemIndex(Items.getInitialIndex());
 
-    const Velocity = (function IIFE() {
+    // Velocity Record closures
+    const VelocityRecord = (function IIFE() {
+      interface VelocityRecord {
+        time: number;
+        position: number;
+      }
+      let records: VelocityRecord[] = [];
       return {
         get(): number {
+          if (records.length >= 2) {
+            const lastRecord: VelocityRecord = { ...records[records.length - 1], time: Date.now() };
+            for (let i = records.length - 1; i >= 0; i--) {
+              const currentRecord = records[i];
+              const timeDiff = lastRecord.time - currentRecord.time;
+              const posDiff = lastRecord.position - currentRecord.position;
+              if (timeDiff < 30) {
+                continue;
+              } else if (timeDiff > 100) {
+                break;
+              } else {
+                return posDiff / timeDiff;
+              }
+            }
+          }
           return 0;
         },
-        record(value: number) {}
+        reset() {
+          records = [];
+        },
+        record(position: number) {
+          records.push({ time: Date.now(), position });
+        }
       };
     })();
 
@@ -58,6 +133,7 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
       let moving: boolean = false;
       return {
         start(y: number) {
+          VelocityRecord.reset();
           last = y;
           moving = true;
         },
@@ -66,10 +142,13 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
             return false;
           }
           Scroll.by(-(y - last));
+          VelocityRecord.record(y);
           last = y;
           return true;
         },
         end() {
+          const velocity = VelocityRecord.get();
+          MomentumScroll.start(velocity);
           moving = false;
         },
         isMoving(): boolean {
@@ -77,17 +156,6 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
         }
       };
     })();
-
-    // scroll to first position
-    Scroll.toItemIndex(initialIndex);
-
-    // start RAF loop for the scroll's flow animation
-    let rafHandle: number;
-    const loop = () => {
-      // TODO
-      rafHandle = window.requestAnimationFrame(loop);
-    };
-    rafHandle = window.requestAnimationFrame(loop);
 
     // event listners
     const listeners = {
@@ -119,9 +187,9 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
 
     return () => {
       console.log("EFFECT END");
-      // kill RAF loop
-      window.cancelAnimationFrame(rafHandle);
-      // unregister the events from the root element
+      // stop momentum-based scrolling
+      MomentumScroll.isScrolling() && MomentumScroll.stop();
+      // unregister the event listeners from the root element
       Object.entries(listeners).forEach(([name, listener]) => {
         root.removeEventListener(name, listener as any);
       });
