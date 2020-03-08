@@ -1,11 +1,13 @@
 export type PickerItemValue = string | number;
 
-export type PickerOnChangeEventHandler = (value: PickerItemValue) => void;
+export type PickerOnChangeValueEventHandler = (value: PickerItemValue) => void;
 
 export interface PickerProps {
-  children?: React.ReactNode;
-  selected?: PickerItemValue;
-  onChange?: PickerOnChangeEventHandler;
+  // children?: React.ReactNode;
+  // children?: React.Component<PickerItemProps>[] | React.Component<PickerItemProps>;
+  children: React.ReactElement<PickerItemProps>[] | React.ReactElement<PickerItemProps>;
+  selectedValue?: PickerItemValue;
+  onChangeValue?: PickerOnChangeValueEventHandler;
   className?: string;
 }
 

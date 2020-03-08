@@ -44,8 +44,8 @@ export default function() {
         {state === "stop" ? (
           <S.Pickers>
             <S.Picker
-              selected={getHours(total)}
-              onChange={hours => {
+              selectedValue={getHours(total)}
+              onChangeValue={hours => {
                 setTimer(hours * 3600 + getMinutes(total) * 60 + getSeconds(total));
               }}
             >
@@ -57,8 +57,8 @@ export default function() {
             </S.Picker>
             :
             <S.Picker
-              selected={getMinutes(total)}
-              onChange={minutes => {
+              selectedValue={getMinutes(total)}
+              onChangeValue={minutes => {
                 setTimer(getHours(total) * 3600 + minutes * 60 + getSeconds(total));
               }}
             >
@@ -70,8 +70,8 @@ export default function() {
             </S.Picker>
             :
             <S.Picker
-              selected={getSeconds(total)}
-              onChange={seconds => {
+              selectedValue={getSeconds(total)}
+              onChangeValue={seconds => {
                 setTimer(getHours(total) * 3600 + getMinutes(total) * 60 + seconds);
               }}
             >
