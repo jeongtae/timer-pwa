@@ -78,9 +78,22 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
           return velocity > 0 ? 1 : -1;
         }
       };
-      const accelarate = (velocity: number, amount: number) => {};
+      const accelarate = (velocity: number, amount: number) => {
+        return velocity + getDirection(velocity) * amount;
+      };
       const decelerate = (velocity: number, amount: number) => {
-        return accelarate(velocity, -amount);
+        const dir = getDirection(velocity);
+        let decelarated = velocity - dir * amount;
+        if (dir > 0) {
+          if (decelarated <= 0) {
+            decelarated = 0;
+          }
+        } else {
+          if (decelarated >= 0) {
+            decelarated = -0;
+          }
+        }
+        return decelarated;
       };
       return {
         start(velocity: number) {
