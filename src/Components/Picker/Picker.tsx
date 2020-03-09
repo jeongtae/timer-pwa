@@ -42,30 +42,6 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
       };
     })();
 
-    // Momentum-based Scroll closures
-    const MomentumScroll = (function IIFE() {
-      let rafHandle = 0;
-      return {
-        start(velocity: number) {
-          rafHandle = window.requestAnimationFrame(function loop() {
-            // TODO do something here
-            if (true) {
-              rafHandle = window.requestAnimationFrame(loop);
-            } else {
-              rafHandle = 0;
-            }
-          });
-        },
-        stop() {
-          window.cancelAnimationFrame(rafHandle);
-          rafHandle = 0;
-        },
-        isScrolling() {
-          return rafHandle !== 0;
-        }
-      };
-    })();
-
     // Scroll closures
     const Scroll = (function IIFE() {
       const zero = -(rootRect.height - Items.getOnesHeight()) / 2;
@@ -91,6 +67,54 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
     })();
     // scroll to first position
     Scroll.toItemIndex(Items.getInitialIndex());
+
+    // Momentum-based Scroll closures
+    const MomentumScroll = (function IIFE() {
+      let rafHandle = 0;
+      const getDirection = (velocity: number) => {
+        if (velocity === 0) {
+          return 1 / velocity === Infinity ? 1 : -1;
+        } else {
+          return velocity > 0 ? 1 : -1;
+        }
+      };
+      const accelarate = (velocity: number, amount: number) => {};
+      const decelerate = (velocity: number, amount: number) => {
+        return accelarate(velocity, -amount);
+      };
+      return {
+        start(velocity: number) {
+          if (!this.isScrolling()) {
+            let lastTime = window.performance.now();
+            rafHandle = window.requestAnimationFrame(function loop(nowTime: number) {
+              const timeDiff = nowTime - lastTime;
+              lastTime = nowTime;
+
+              Scroll.by(velocity * timeDiff);
+              if (velocity !== 0) {
+                // velocity = decelerate(velocity, 0.05 * timeDiff);
+              }
+
+              const arrived = velocity === 0;
+              if (!arrived) {
+                rafHandle = window.requestAnimationFrame(loop);
+              } else {
+                rafHandle = 0;
+              }
+            });
+          }
+        },
+        stop() {
+          if (this.isScrolling()) {
+            window.cancelAnimationFrame(rafHandle);
+            rafHandle = 0;
+          }
+        },
+        isScrolling() {
+          return rafHandle !== 0;
+        }
+      };
+    })();
 
     // Velocity Record closures
     const VelocityRecord = (function IIFE() {
@@ -188,7 +212,7 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
     return () => {
       console.log("EFFECT END");
       // stop momentum-based scrolling
-      MomentumScroll.isScrolling() && MomentumScroll.stop();
+      MomentumScroll.stop();
       // unregister the event listeners from the root element
       Object.entries(listeners).forEach(([name, listener]) => {
         root.removeEventListener(name, listener as any);
