@@ -97,6 +97,8 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
       };
       return {
         start(velocity: number) {
+          const limitNumber = (value: number, min: number, max: number) =>
+            Math.max(Math.min(value, max), min);
           if (!this.isScrolling()) {
             let lastTime = window.performance.now();
             rafHandle = window.requestAnimationFrame(function loop(nowTime: number) {
@@ -105,7 +107,9 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
 
               Scroll.by(velocity * timeDiff);
               if (velocity !== 0) {
-                // velocity = decelerate(velocity, 0.05 * timeDiff);
+                const slowdownCoef = limitNumber(Math.abs(velocity), 0.05, 1.0);
+                const decAmount = 0.005 * timeDiff * slowdownCoef;
+                velocity = decelerate(velocity, decAmount);
               }
 
               const arrived = velocity === 0;
@@ -171,6 +175,7 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
       return {
         start(y: number) {
           VelocityRecord.reset();
+          MomentumScroll.stop();
           last = y;
           moving = true;
         },
@@ -179,7 +184,7 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
             return false;
           }
           Scroll.by(-(y - last));
-          VelocityRecord.record(y);
+          VelocityRecord.record(-y);
           last = y;
           return true;
         },
