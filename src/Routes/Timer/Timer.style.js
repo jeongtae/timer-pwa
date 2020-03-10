@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { lighten, darken, rgba } from "polished";
 import picker from "Components/Picker";
 
@@ -9,6 +9,21 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
+  &.blink {
+    animation: ${keyframes`
+      from {
+        background: transparent;
+        color: white;
+      }
+      10% {
+        background: white;
+        color: black;
+      }
+      50% {
+        background: transparent;
+        color:white;
+      }`} 1s ease 0s infinite normal;
+  }
 `;
 
 export const UpperDivision = styled.div`

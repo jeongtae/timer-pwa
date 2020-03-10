@@ -42,16 +42,19 @@ export default function() {
     states: { state, left, total, progress },
     actions: { setTimerHours, setTimerMinutes, setTimerSeconds, pauseTimer, startTimer, resetTimer }
   } = useTimerContext();
+  const containerRef = useRef();
   const pickersRef = useRef();
 
   useEffect(() => {
     if (state === "stop") {
       pickersRef.current.className += " shown";
+    } else if (state === "done") {
+      containerRef.current.className += " blink";
     }
   }, [state]);
 
   return (
-    <S.Container>
+    <S.Container ref={containerRef}>
       <S.UpperDivision>
         {state === "stop" ? (
           <S.Pickers ref={pickersRef}>
