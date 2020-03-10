@@ -10,12 +10,12 @@ const blinkKeyframe = keyframes`
     color: black;
   }
   50% {
-    background: transparent;
-    color: white;
+    background: unset;
+    color: unset;
   }
   90% {
-    background: transparent;
-    color: white;
+    background: unset;
+    color: unset;
   }
   to {
     background: white;
