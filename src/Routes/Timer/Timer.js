@@ -47,10 +47,11 @@ export default function() {
 
   useEffect(() => {
     if (state === "stop") {
-      pickersRef.current.className += " shown";
+      pickersRef.current.id = "shown";
     } else if (state === "done") {
-      containerRef.current.className += " blink";
+      containerRef.current.id = "blink";
     }
+    return () => (containerRef.current.id = "");
   }, [state]);
 
   return (

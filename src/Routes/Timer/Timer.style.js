@@ -9,19 +9,23 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
-  &.blink {
+  &#blink {
     animation: ${keyframes`
       from {
-        background: transparent;
-        color: white;
-      }
-      10% {
         background: white;
         color: black;
       }
       50% {
         background: transparent;
+        color: white;
+      }
+      90% {
+        background: transparent;
         color:white;
+      }
+      to {
+        background: white;
+        color: black;
       }`} 1s ease 0s infinite normal;
   }
 `;
@@ -82,7 +86,7 @@ export const Pickers = styled.div`
   transition-property: opacity;
   transition-duration: 200ms;
   opacity: 0;
-  &.shown {
+  &#shown {
     opacity: 1;
   }
 `;
