@@ -14,9 +14,17 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
   },
   {
     // actions
-    setTimer(states, seconds) {
-      const { setTotal } = states;
-      setTotal(seconds);
+    setTimerHours(states, hours) {
+      const { total, setTotal } = states;
+      setTotal((total % 3600) + hours * 3600);
+    },
+    setTimerMinutes(states, minutes) {
+      const { total, setTotal } = states;
+      setTotal(total - (total % 3600) + minutes * 60 + (total % 60));
+    },
+    setTimerSeconds(states, seconds) {
+      const { total, setTotal } = states;
+      setTotal(total - (total % 60) + seconds);
     },
     startTimer(states) {
       const { state, setState, left, total, setMultiple } = states;

@@ -40,20 +40,15 @@ const zeroTo23 = zeroTo59.slice(0, 24);
 export default function() {
   const {
     states: { state, left, total, progress },
-    actions: { setTimer, pauseTimer, startTimer, resetTimer }
+    actions: { setTimerHours, setTimerMinutes, setTimerSeconds, pauseTimer, startTimer, resetTimer }
   } = useTimerContext();
-
+  console.log(total);
   return (
     <S.Container>
       <S.UpperDivision>
         {state === "stop" ? (
           <S.Pickers>
-            <MemoPicker
-              selectedValue={getHours(total)}
-              onChangeValue={hours =>
-                setTimer(hours * 3600 + getMinutes(total) * 60 + getSeconds(total))
-              }
-            >
+            <MemoPicker selectedValue={getHours(total)} onChangeValue={setTimerHours}>
               {zeroTo23.map((v, i) => (
                 <PickerItem value={v} key={i}>
                   {v}
@@ -61,12 +56,7 @@ export default function() {
               ))}
             </MemoPicker>
             :
-            <MemoPicker
-              selectedValue={getMinutes(total)}
-              onChangeValue={minutes =>
-                setTimer(getHours(total) * 3600 + minutes * 60 + getSeconds(total))
-              }
-            >
+            <MemoPicker selectedValue={getMinutes(total)} onChangeValue={setTimerMinutes}>
               {zeroTo59.map((v, i) => (
                 <PickerItem value={v} key={i}>
                   {v}
@@ -74,12 +64,7 @@ export default function() {
               ))}
             </MemoPicker>
             :
-            <MemoPicker
-              selectedValue={getSeconds(total)}
-              onChangeValue={seconds =>
-                setTimer(getHours(total) * 3600 + getMinutes(total) * 60 + seconds)
-              }
-            >
+            <MemoPicker selectedValue={getSeconds(total)} onChangeValue={setTimerSeconds}>
               {zeroTo59.map((v, i) => (
                 <PickerItem value={v} key={i}>
                   {v}
