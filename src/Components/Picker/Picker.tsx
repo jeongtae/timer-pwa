@@ -7,7 +7,6 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    console.log("EFFECT START");
     const root = rootRef.current as HTMLDivElement;
     const content = contentRef.current as HTMLDivElement;
     const rootRect = root.getBoundingClientRect();
@@ -55,7 +54,16 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
         },
         to(y: number) {
           current = y;
-          content.style.transform = `translateY(${-(zero + current)}px)`;
+          let translated: number;
+          const [start, end] = [0, Items.getTotalHeight() - Items.getOnesHeight()];
+          if (current < start) {
+            translated = start + (current - start) / 2.5;
+          } else if (current > end) {
+            translated = end + (current - end) / 2.5;
+          } else {
+            translated = current;
+          }
+          content.style.transform = `translateY(${-(zero + translated)}px)`;
         },
         by(y: number) {
           this.to(current + y);
@@ -65,61 +73,109 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
         }
       };
     })();
-    // scroll to first position
+    // scroll to initial position
     Scroll.toItemIndex(Items.getInitialIndex());
 
     // Momentum-based Scroll closures
     const MomentumScroll = (function IIFE() {
       let rafHandle = 0;
-      const getDirection = (velocity: number) => {
-        if (velocity === 0) {
-          return 1 / velocity === Infinity ? 1 : -1;
-        } else {
-          return velocity > 0 ? 1 : -1;
-        }
+      const constants = {
+        slowdownBaseVelocity: Items.getOnesHeight() * 0.005,
+        friction: 0.003,
+        maxVelocity: 8,
+        outsideForce: 0.015
       };
-      const accelarate = (velocity: number, amount: number) => {
-        return velocity + getDirection(velocity) * amount;
-      };
-      const decelerate = (velocity: number, amount: number) => {
-        const dir = getDirection(velocity);
-        let decelarated = velocity - dir * amount;
-        if (dir > 0) {
-          if (decelarated <= 0) {
-            decelarated = 0;
-          }
-        } else {
-          if (decelarated >= 0) {
-            decelarated = -0;
-          }
-        }
-        return decelarated;
-      };
+      const limitNumber = (value: number, min: number, max: number) =>
+        Math.max(Math.min(value, max), min);
       return {
         start(velocity: number) {
-          const limitNumber = (value: number, min: number, max: number) =>
-            Math.max(Math.min(value, max), min);
-          if (!this.isScrolling()) {
-            let lastTime = window.performance.now();
-            rafHandle = window.requestAnimationFrame(function loop(nowTime: number) {
-              const timeDiff = nowTime - lastTime;
-              lastTime = nowTime;
-
-              Scroll.by(velocity * timeDiff);
-              if (velocity !== 0) {
-                const slowdownCoef = limitNumber(Math.abs(velocity), 0.05, 1.0);
-                const decAmount = 0.005 * timeDiff * slowdownCoef;
-                velocity = decelerate(velocity, decAmount);
-              }
-
-              const arrived = velocity === 0;
-              if (!arrived) {
-                rafHandle = window.requestAnimationFrame(loop);
-              } else {
-                rafHandle = 0;
-              }
-            });
+          if (this.isScrolling()) {
+            return;
           }
+
+          // check the initial velocity
+          if (velocity === 0) {
+            const idx = Scroll.getCurrentItemIndex();
+            if (idx < 0) {
+              velocity = constants.slowdownBaseVelocity;
+            } else if (idx > Items.getCount() - 1) {
+              velocity = -constants.slowdownBaseVelocity;
+            } else {
+              const idxFractionalPart = idx % Math.floor(idx);
+              velocity =
+                idxFractionalPart > 0.5
+                  ? constants.slowdownBaseVelocity
+                  : -constants.slowdownBaseVelocity;
+            }
+          }
+
+          let lastTime = window.performance.now();
+          rafHandle = window.requestAnimationFrame(function loop(nowTime: number) {
+            const timeDiff = nowTime - lastTime;
+            lastTime = nowTime;
+
+            // check the index before move
+            const beforeMoveCurrIndex = Scroll.getCurrentItemIndex();
+            const beforeMoveNextIndex = limitNumber(
+              velocity > 0 ? Math.ceil(beforeMoveCurrIndex) : Math.floor(beforeMoveCurrIndex),
+              0,
+              Items.getCount() - 1
+            );
+
+            // move as current velocity
+            if (Math.abs(velocity) < constants.slowdownBaseVelocity) {
+              velocity =
+                velocity > 0 ? constants.slowdownBaseVelocity : -constants.slowdownBaseVelocity;
+            }
+            velocity = limitNumber(velocity, -constants.maxVelocity, constants.maxVelocity);
+            Scroll.by(velocity * timeDiff);
+
+            // check the index after move
+            const afterMoveCurrIndex = Scroll.getCurrentItemIndex();
+
+            if (afterMoveCurrIndex < 0) {
+              velocity += constants.outsideForce * timeDiff;
+            } else if (afterMoveCurrIndex > Items.getCount() - 1) {
+              velocity -= constants.outsideForce * timeDiff;
+            } else {
+              if (beforeMoveCurrIndex < 0) {
+                velocity = 0.001;
+              } else if (beforeMoveCurrIndex > Items.getCount() - 1) {
+                velocity = -0.001;
+              }
+              // if the velocity is not slow
+              if (Math.abs(velocity) > constants.slowdownBaseVelocity) {
+                // decelerate as friction
+                const decAmount = constants.friction * timeDiff;
+                if (velocity > 0) {
+                  velocity = Math.max(velocity - decAmount, 0);
+                } else {
+                  velocity = Math.min(velocity + decAmount, 0);
+                }
+              }
+              // if the velocity is slow
+              else {
+                // if arrived to the destination index
+                if (
+                  velocity > 0
+                    ? afterMoveCurrIndex >= beforeMoveNextIndex
+                    : afterMoveCurrIndex <= beforeMoveNextIndex
+                ) {
+                  // correct the position and invoke `onChange`
+                  Scroll.toItemIndex(beforeMoveNextIndex);
+                  if (selectedValue !== beforeMoveNextIndex) {
+                    onChangeValue && onChangeValue(beforeMoveNextIndex);
+                  }
+                  // stop the loop
+                  rafHandle = 0;
+                  return;
+                }
+              }
+            }
+
+            // request next loop
+            rafHandle = window.requestAnimationFrame(loop);
+          });
         },
         stop() {
           if (this.isScrolling()) {
@@ -200,15 +256,21 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
     })();
 
     // event listners
+    let sensedTouchId: number;
     const listeners = {
       touchstart(e: React.TouchEvent<HTMLDivElement>) {
-        const { pageY: y } = e.touches[0];
+        const touch = e.touches[0];
+        const { pageY: y, identifier } = touch;
+        sensedTouchId = identifier;
         UserInput.start(y);
       },
       touchmove(e: React.TouchEvent<HTMLDivElement>) {
-        const { pageY: y } = e.touches[0];
-        if (UserInput.move(y)) {
-          e.preventDefault();
+        const touch = Array.from(e.touches).find(touch => touch.identifier === sensedTouchId);
+        if (touch !== undefined) {
+          const { pageY: y } = touch;
+          if (UserInput.move(y)) {
+            e.preventDefault();
+          }
         }
       },
       touchend() {
@@ -228,7 +290,6 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
     });
 
     return () => {
-      console.log("EFFECT END");
       // stop momentum-based scrolling
       MomentumScroll.stop();
       // unregister the event listeners from the root element
@@ -236,7 +297,7 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
         root.removeEventListener(name, listener as any);
       });
     };
-  }, [selectedValue, onChangeValue]);
+  }, [children, selectedValue, onChangeValue]);
 
   return (
     <div ref={rootRef} className={["picker-root", className].join(" ")}>
