@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef } from "react";
 import * as S from "./Timer.style";
 import { useTimerContext } from "Contexts";
 import { PickerItem } from "Components";
@@ -43,12 +43,6 @@ export default function() {
     actions: { setTimerHours, setTimerMinutes, setTimerSeconds, pauseTimer, startTimer, resetTimer }
   } = useTimerContext();
   const pickersRef = useRef();
-
-  useEffect(() => {
-    if (state === "stop") {
-      pickersRef.current.id = "shown";
-    }
-  }, [state]);
 
   return (
     <S.Container blink={state === "done"}>
