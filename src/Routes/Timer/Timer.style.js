@@ -1,33 +1,37 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { lighten, darken, rgba } from "polished";
 import picker from "Components/Picker";
 
 // const mediaIsLandscape = "screen and (orientation: landscape) and (max-height: 600px)";
 
+const blinkKeyframe = keyframes`
+  from {
+    background: white;
+    color: black;
+  }
+  50% {
+    background: transparent;
+    color: white;
+  }
+  90% {
+    background: transparent;
+    color: white;
+  }
+  to {
+    background: white;
+    color: black;
+  }
+`;
 export const Container = styled.div`
   height: 100%;
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
-  &#blink {
-    animation: ${keyframes`
-      from {
-        background: white;
-        color: black;
-      }
-      50% {
-        background: transparent;
-        color: white;
-      }
-      90% {
-        background: transparent;
-        color:white;
-      }
-      to {
-        background: white;
-        color: black;
-      }`} 1s ease 0s infinite normal;
-  }
+  ${({ blink }) =>
+    blink &&
+    css`
+      animation: ${blinkKeyframe} 1s ease 0s infinite normal;
+    `}
 `;
 
 export const UpperDivision = styled.div`
