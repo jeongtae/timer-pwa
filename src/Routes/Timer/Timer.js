@@ -42,7 +42,7 @@ export default function() {
     states: { state, left, total, progress },
     actions: { setTimerHours, setTimerMinutes, setTimerSeconds, pauseTimer, startTimer, resetTimer }
   } = useTimerContext();
-  console.log(total);
+
   return (
     <S.Container>
       <S.UpperDivision>

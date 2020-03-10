@@ -7,7 +7,7 @@ let destTime = 0;
 export const { useContext: useTimerContext, ContextProvider: TimerProvider } = createContext(
   {
     // states
-    total: 10,
+    total: 8562,
     left: 10,
     progress: 0,
     state: "stop"
@@ -15,16 +15,22 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
   {
     // actions
     setTimerHours(states, hours) {
-      const { total, setTotal } = states;
-      setTotal((total % 3600) + hours * 3600);
+      const { total, setTotal, setLeft } = states;
+      const newTotal = (total % 3600) + hours * 3600;
+      setTotal(newTotal);
+      setLeft(newTotal);
     },
     setTimerMinutes(states, minutes) {
-      const { total, setTotal } = states;
-      setTotal(total - (total % 3600) + minutes * 60 + (total % 60));
+      const { total, setTotal, setLeft } = states;
+      const newTotal = total - (total % 3600) + minutes * 60 + (total % 60);
+      setTotal(newTotal);
+      setLeft(newTotal);
     },
     setTimerSeconds(states, seconds) {
-      const { total, setTotal } = states;
-      setTotal(total - (total % 60) + seconds);
+      const { total, setTotal, setLeft } = states;
+      const newTotal = total - (total % 60) + seconds;
+      setTotal(newTotal);
+      setLeft(newTotal);
     },
     startTimer(states) {
       const { state, setState, left, total, setMultiple } = states;
