@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import * as S from "./Timer.style";
 import { useTimerContext } from "Contexts";
 import { PickerItem } from "Components";
@@ -42,12 +42,19 @@ export default function() {
     states: { state, left, total, progress },
     actions: { setTimerHours, setTimerMinutes, setTimerSeconds, pauseTimer, startTimer, resetTimer }
   } = useTimerContext();
+  const pickersRef = useRef();
+
+  useEffect(() => {
+    if (state === "stop") {
+      pickersRef.current.className += " shown";
+    }
+  }, [state]);
 
   return (
     <S.Container>
       <S.UpperDivision>
         {state === "stop" ? (
-          <S.Pickers>
+          <S.Pickers ref={pickersRef}>
             <MemoPicker selectedValue={getHours(total)} onChangeValue={setTimerHours}>
               {zeroTo23.map((v, i) => (
                 <PickerItem value={v} key={i}>

@@ -64,6 +64,12 @@ export const Pickers = styled.div`
     pointer-events: none;
     z-index: 1;
   }
+  transition-property: opacity;
+  transition-duration: 200ms;
+  opacity: 0;
+  &.shown {
+    opacity: 1;
+  }
 `;
 
 export const Picker = styled(picker)`
