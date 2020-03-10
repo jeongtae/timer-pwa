@@ -101,7 +101,7 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
             } else if (idx > Items.getCount() - 1) {
               velocity = -constants.slowdownBaseVelocity;
             } else {
-              const idxFractionalPart = idx % Math.floor(idx);
+              const idxFractionalPart = idx % (Math.floor(idx) || 1);
               velocity =
                 idxFractionalPart > 0.5
                   ? constants.slowdownBaseVelocity
