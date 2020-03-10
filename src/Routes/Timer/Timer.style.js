@@ -39,15 +39,15 @@ export const Pickers = styled.div`
     background-image: linear-gradient(
         to bottom,
         ${({ theme }) => rgba(theme.background, 1)},
-        ${({ theme }) => rgba(theme.background, 0.5)}
+        ${({ theme }) => rgba(theme.background, 0.3)}
       ),
       linear-gradient(
         to top,
         ${({ theme }) => rgba(theme.background, 1)},
-        ${({ theme }) => rgba(theme.background, 0.5)}
+        ${({ theme }) => rgba(theme.background, 0.3)}
       );
     background-position: top, bottom;
-    background-size: 100% ${100 - 17}px;
+    background-size: 100% calc(100px - 1.25em);
     background-repeat: no-repeat;
     pointer-events: none;
     z-index: 2;
@@ -55,8 +55,8 @@ export const Pickers = styled.div`
   &::after {
     /* Indicator */
     content: "";
-    width: 180px;
-    height: 34px;
+    width: 210px;
+    height: 2.5em;
     position: absolute;
     box-sizing: border-box;
     border: solid 1.5px ${({ theme }) => theme.foreground};
@@ -67,7 +67,7 @@ export const Pickers = styled.div`
 `;
 
 export const Picker = styled(picker)`
-  width: 60px;
+  width: 70px;
   height: 200px;
 `;
 
