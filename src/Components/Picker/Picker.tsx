@@ -44,6 +44,9 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
     // Scroll closures
     const Scroll = (function IIFE() {
       const zero = -(rootRect.height - Items.getOnesHeight()) / 2;
+      const constants = {
+        outsideScrollMultiply: 0.25
+      };
       let current: number;
       return {
         getCurrentPosition(): number {
@@ -57,9 +60,9 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
           let translated: number;
           const [start, end] = [0, Items.getTotalHeight() - Items.getOnesHeight()];
           if (current < start) {
-            translated = start + (current - start) / 2.5;
+            translated = start + (current - start) * constants.outsideScrollMultiply;
           } else if (current > end) {
-            translated = end + (current - end) / 2.5;
+            translated = end + (current - end) * constants.outsideScrollMultiply;
           } else {
             translated = current;
           }
@@ -83,7 +86,7 @@ function Picker({ children, selectedValue, onChangeValue, className }: PickerPro
         slowdownBaseVelocity: Items.getOnesHeight() * 0.005,
         friction: 0.003,
         maxVelocity: 8,
-        outsideForce: 0.015
+        outsideForce: 0.02
       };
       const limitNumber = (value: number, min: number, max: number) =>
         Math.max(Math.min(value, max), min);
