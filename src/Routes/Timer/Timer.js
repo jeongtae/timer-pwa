@@ -29,6 +29,11 @@ const format = totalSeconds => {
   return result;
 };
 
+const MemoPicker = React.memo(
+  S.Picker,
+  ({ selectedValue: prev }, { selectedValue: next }) => prev === next
+);
+
 const zeroTo59 = [...Array(60).keys()];
 const zeroTo23 = zeroTo59.slice(0, 24);
 
@@ -43,44 +48,44 @@ export default function() {
       <S.UpperDivision>
         {state === "stop" ? (
           <S.Pickers>
-            <S.Picker
+            <MemoPicker
               selectedValue={getHours(total)}
-              onChangeValue={hours => {
-                setTimer(hours * 3600 + getMinutes(total) * 60 + getSeconds(total));
-              }}
+              onChangeValue={hours =>
+                setTimer(hours * 3600 + getMinutes(total) * 60 + getSeconds(total))
+              }
             >
               {zeroTo23.map((v, i) => (
                 <PickerItem value={v} key={i}>
                   {v}
                 </PickerItem>
               ))}
-            </S.Picker>
+            </MemoPicker>
             :
-            <S.Picker
+            <MemoPicker
               selectedValue={getMinutes(total)}
-              onChangeValue={minutes => {
-                setTimer(getHours(total) * 3600 + minutes * 60 + getSeconds(total));
-              }}
+              onChangeValue={minutes =>
+                setTimer(getHours(total) * 3600 + minutes * 60 + getSeconds(total))
+              }
             >
               {zeroTo59.map((v, i) => (
                 <PickerItem value={v} key={i}>
                   {v}
                 </PickerItem>
               ))}
-            </S.Picker>
+            </MemoPicker>
             :
-            <S.Picker
+            <MemoPicker
               selectedValue={getSeconds(total)}
-              onChangeValue={seconds => {
-                setTimer(getHours(total) * 3600 + getMinutes(total) * 60 + seconds);
-              }}
+              onChangeValue={seconds =>
+                setTimer(getHours(total) * 3600 + getMinutes(total) * 60 + seconds)
+              }
             >
               {zeroTo59.map((v, i) => (
                 <PickerItem value={v} key={i}>
                   {v}
                 </PickerItem>
               ))}
-            </S.Picker>
+            </MemoPicker>
           </S.Pickers>
         ) : (
           <S.Timer small={left >= 3600}>{format(left)}</S.Timer>
