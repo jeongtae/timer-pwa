@@ -27,6 +27,10 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
+  padding-left: env(safe-area-inset-left);
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
   ${({ blink }) =>
     blink &&
     css`
