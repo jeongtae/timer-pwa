@@ -88,6 +88,7 @@ export default function() {
           <FontAwesomeIcon icon={faTimes} />
         </S.ControlButton>
         <S.ControlButton
+          disabled={total === 0}
           appearance={state !== "running" ? "start" : "stop"}
           onClick={state !== "running" ? startTimer : pauseTimer}
         >
