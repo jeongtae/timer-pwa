@@ -2,95 +2,70 @@
 import createContext from "./createContext";
 
 let loopId = 0;
-let loopDestTime = 0;
+let endTime = 0;
 
 export const { useContext: useTimerContext, ContextProvider: TimerProvider } = createContext(
   {
     // states
-    total: 8562,
-    left: 10,
-    progress: 0,
-    state: "stop",
-    destTime: 0
+    total: 3661,
+    left: 0,
+    elapsed: 0,
+    state: "stop"
   },
   {
     // actions
     setTimerHours(states, hours) {
-      const { total, setTotal, setLeft } = states;
+      const { total, setMultiple } = states;
       const newTotal = (total % 3600) + hours * 3600;
-      setTotal(newTotal);
-      setLeft(newTotal);
+      setMultiple({ total: newTotal, left: newTotal });
     },
     setTimerMinutes(states, minutes) {
-      const { total, setTotal, setLeft } = states;
+      const { total, setMultiple } = states;
       const newTotal = total - (total % 3600) + minutes * 60 + (total % 60);
-      setTotal(newTotal);
-      setLeft(newTotal);
+      setMultiple({ total: newTotal, left: newTotal });
     },
     setTimerSeconds(states, seconds) {
-      const { total, setTotal, setLeft } = states;
+      const { total, setMultiple } = states;
       const newTotal = total - (total % 60) + seconds;
-      setTotal(newTotal);
-      setLeft(newTotal);
+      setMultiple({ total: newTotal, left: newTotal });
     },
-    delayTimer(states, seconds) {
-      loopDestTime += seconds * 1000;
+    addLeft(states, seconds) {
+      endTime += seconds * 1000;
     },
     startTimer(states) {
-      const { state, setState, setDestTime, left, total, setMultiple } = states;
-      // change current state
+      const { state, setState, left, total, setMultiple } = states;
       setState("running");
-      // set destination time
-      const destTime = Date.now() + 1000 * (state !== "done" ? left : total);
-      setDestTime(destTime);
-      loopDestTime = destTime;
-      // start loop
-      const progressUpdatesPerSec = Math.max(Math.min(Math.floor(60 / (total / 2)), 30), 1);
+      endTime = Date.now() + 1000 * (state === "pause" ? left : total);
       clearInterval(loopId);
       loopId = setInterval(() => {
-        const newLeft = Math.ceil((loopDestTime - Date.now()) / 1000);
-        const newProgress = Math.min(
-          1,
-          1 -
-            Math.ceil(((loopDestTime - Date.now()) / 1000) * progressUpdatesPerSec) /
-              (total * progressUpdatesPerSec)
-        );
+        const newLeft = Math.ceil((endTime - Date.now()) / 1000);
         if (newLeft <= 0 && state !== "done") {
           setMultiple({
-            destTime: loopDestTime,
             state: "done",
-            left: newLeft,
-            progress: newProgress
+            left: newLeft
           });
         } else {
-          console.log(loopDestTime);
           setMultiple({
             // state: "running",
-            destTime: loopDestTime,
-            left: newLeft,
-            progress: newProgress
+            left: newLeft
           });
         }
       }, 10);
     },
     pauseTimer(states) {
-      const { setState, left, total, setDestTime } = states;
-      // change current state
+      const { setState, left, total } = states;
       setState(left === total ? "stop" : "pause");
-      // forget destination time
-      setDestTime(0);
-      loopDestTime = 0;
-      // stop loop
+      endTime = 0;
       clearInterval(loopId);
       loopId = 0;
     },
     resetTimer(states) {
-      const { setState, setLeft, total, setDestTime } = states;
+      const { setState, setLeft, total } = states;
       setState("stop");
       setLeft(total);
-      setDestTime(0);
-      loopDestTime = 0;
+      endTime = 0;
       clearInterval(loopId);
+      loopId = 0;
     }
   }
 );

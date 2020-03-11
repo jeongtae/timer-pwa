@@ -39,7 +39,7 @@ const zeroTo23 = zeroTo59.slice(0, 24);
 
 export default function() {
   const {
-    states: { state, left, total, progress, destTime },
+    states: { state, left, total },
     actions: {
       setTimerHours,
       setTimerMinutes,
@@ -47,7 +47,7 @@ export default function() {
       pauseTimer,
       startTimer,
       resetTimer,
-      delayTimer
+      addLeft
     }
   } = useTimerContext();
   const pickersRef = useRef();
@@ -85,17 +85,17 @@ export default function() {
           <S.Timer small={left >= 3600}>{format(left)}</S.Timer>
         )}
       </S.UpperDivision>
-      <p>{new Date(destTime).toLocaleTimeString()}</p>
+      <p>{new Date(1000).toLocaleTimeString()}</p>
       <S.LowerDivision>
         <S.ControlButton disabled={state === "stop"} onClick={resetTimer}>
           <FontAwesomeIcon icon={faTimes} />
         </S.ControlButton>
         {state === "running" && (
           <>
-            <S.ControlButton onClick={() => delayTimer(10)}>
+            <S.ControlButton onClick={() => addLeft(10)}>
               <FontAwesomeIcon icon={faPlus} />
             </S.ControlButton>
-            <S.ControlButton onClick={() => delayTimer(-10)}>
+            <S.ControlButton onClick={() => addLeft(-10)}>
               <FontAwesomeIcon icon={faMinus} />
             </S.ControlButton>
           </>
