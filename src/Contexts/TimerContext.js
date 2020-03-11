@@ -32,6 +32,9 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       setTotal(newTotal);
       setLeft(newTotal);
     },
+    delayTimer(states, seconds) {
+      destTime += seconds * 1000;
+    },
     startTimer(states) {
       const { state, setState, left, total, setMultiple } = states;
       // change current state

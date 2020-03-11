@@ -3,7 +3,7 @@ import * as S from "./Timer.style";
 import { useTimerContext } from "Contexts";
 import { PickerItem } from "Components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faPlay, faPause, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const getHours = totalSeconds => Math.floor(totalSeconds / 3600);
 const getMinutes = totalSeconds => Math.floor(totalSeconds / 60) % 60;
@@ -40,7 +40,15 @@ const zeroTo23 = zeroTo59.slice(0, 24);
 export default function() {
   const {
     states: { state, left, total, progress },
-    actions: { setTimerHours, setTimerMinutes, setTimerSeconds, pauseTimer, startTimer, resetTimer }
+    actions: {
+      setTimerHours,
+      setTimerMinutes,
+      setTimerSeconds,
+      pauseTimer,
+      startTimer,
+      resetTimer,
+      delayTimer
+    }
   } = useTimerContext();
   const pickersRef = useRef();
 
@@ -81,6 +89,16 @@ export default function() {
         <S.ControlButton disabled={state === "stop"} onClick={resetTimer}>
           <FontAwesomeIcon icon={faTimes} />
         </S.ControlButton>
+        {state === "running" && (
+          <>
+            <S.ControlButton onClick={() => delayTimer(10)}>
+              <FontAwesomeIcon icon={faPlus} />
+            </S.ControlButton>
+            <S.ControlButton onClick={() => delayTimer(-10)}>
+              <FontAwesomeIcon icon={faMinus} />
+            </S.ControlButton>
+          </>
+        )}
         <S.ControlButton
           disabled={total === 0}
           appearance={state !== "running" ? "start" : "stop"}
