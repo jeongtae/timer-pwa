@@ -9,6 +9,7 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
     total: 3661,
     left: 3661,
     elapsed: 0,
+    addedLeft: 0,
     state: "stop"
   },
   {
@@ -35,6 +36,8 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       }
     },
     addLeft(states, seconds) {
+      // const {setAddedLeft} = states;
+      // setAddedLeft(addedLeft => addedLeft + seconds);
       addedLeft += seconds;
     },
     startTimer(states) {
@@ -53,11 +56,11 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       loopId = setInterval(() => {
         const newLeft = Math.ceil((endTime + addedLeft * 1000 - Date.now()) / 1000);
         const newElapsed = total + addedLeft - newLeft;
-        const newState = newLeft <= 0 ? "done" : "running";
         setMultiple({
-          state: newState,
+          state: newLeft <= 0 ? "done" : "running",
           left: newLeft,
-          elapsed: newElapsed
+          elapsed: newElapsed,
+          addedLeft
         });
       }, 10);
     },
@@ -66,11 +69,10 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       setState(left === total ? "stop" : "pause");
       clearInterval(loopId);
       loopId = 0;
-      addedLeft = 0;
     },
     resetTimer(states) {
       const { setMultiple, total } = states;
-      setMultiple({ state: "stop", left: total, elapsed: 0 });
+      setMultiple({ state: "stop", left: total, elapsed: 0, addedLeft: 0 });
       clearInterval(loopId);
       loopId = 0;
       addedLeft = 0;

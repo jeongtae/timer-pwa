@@ -39,7 +39,7 @@ const zeroTo23 = zeroTo59.slice(0, 24);
 
 export default function() {
   const {
-    states: { state, elapsed, left, total },
+    states: { state, elapsed, left, total, addedLeft },
     actions: {
       setTimerHours,
       setTimerMinutes,
@@ -85,7 +85,9 @@ export default function() {
           <S.Timer small={left >= 3600}>{format(left)}</S.Timer>
         )}
       </S.UpperDivision>
-      <p>{elapsed}</p>
+      <p>
+        {elapsed}, {addedLeft}
+      </p>
       <S.LowerDivision>
         <S.ControlButton disabled={state === "stop"} onClick={resetTimer}>
           <FontAwesomeIcon icon={faTimes} />
