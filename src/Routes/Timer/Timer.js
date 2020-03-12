@@ -85,9 +85,6 @@ export default function() {
           <S.Timer small={left >= 3600}>{format(left)}</S.Timer>
         )}
       </S.UpperDivision>
-      <p>
-        {elapsed}, {addedLeft}
-      </p>
       <S.LowerDivision>
         <S.ControlButton disabled={state === "stop"} onClick={resetTimer}>
           <FontAwesomeIcon icon={faTimes} />

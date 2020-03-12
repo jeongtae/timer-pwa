@@ -36,8 +36,6 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       }
     },
     addLeft(states, seconds) {
-      // const {setAddedLeft} = states;
-      // setAddedLeft(addedLeft => addedLeft + seconds);
       addedLeft += seconds;
     },
     startTimer(states) {
