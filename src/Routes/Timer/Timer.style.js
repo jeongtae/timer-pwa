@@ -25,8 +25,9 @@ const blinkKeyframe = keyframes`
 export const Container = styled.div`
   height: 100%;
   display: flex;
+  flex-flow: column nowrap;
   justify-content: space-evenly;
-  flex-direction: column;
+  align-content: stretch;
   padding-left: env(safe-area-inset-left);
   padding-top: env(safe-area-inset-top);
   padding-right: env(safe-area-inset-right);
@@ -39,17 +40,19 @@ export const Container = styled.div`
 `;
 
 export const UpperDivision = styled.div`
-  flex-basis: 200px;
-  flex-grow: 2;
+  flex: 2 200px;
   display: flex;
+  flex-flow: row nowrap;
   justify-content: center;
+  align-content: stretch;
 `;
 
 export const LowerDivision = styled.div`
-  flex-grow: 1;
+  flex: 1 60px;
   display: flex;
   padding: 0 5vw;
   justify-content: space-between;
+  align-content: stretch;
 `;
 
 export const Pickers = styled.div`
