@@ -139,7 +139,9 @@ export const LowerDivision = styled.div`
 const buttonColors = {
   default: "#777",
   start: "#2a2",
-  stop: "#c80"
+  stop: "#c80",
+  minus: "#9e3d2e",
+  plus: "#10639e"
 };
 const buttonBorderSize = 4;
 const buttonBorderRadius = 12;
