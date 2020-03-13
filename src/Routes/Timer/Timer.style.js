@@ -108,7 +108,6 @@ export const Timer = styled.span`
 export const LowerDivision = styled.div`
   flex: 1 auto;
   display: grid;
-
   grid-template: 70px 70px / 1fr 1fr;
   padding: 0 10vw;
   place-items: center center;
@@ -137,48 +136,58 @@ export const LowerDivision = styled.div`
   }
 `;
 
-const controlButtonColors = {
+const buttonColors = {
   default: "#777",
   start: "#2a2",
   stop: "#c80"
 };
-export const ControlButton = styled.button`
-  width: 90px;
-  height: 60px;
+const buttonBorderSize = 4;
+const buttonBorderRadius = 12;
+export const Button = styled.button`
+  all: unset;
+  width: ${90 - buttonBorderSize * 2}px;
+  height: ${60 - buttonBorderSize * 2}px;
+  margin: ${buttonBorderSize * 2}px;
   position: relative;
   display: flex;
   justify-content: center;
   align-content: center;
-  text-transform: uppercase;
   font-size: 30px;
   border: none;
-  border-radius: 12px;
-  background-color: ${({ appearance }) =>
-    controlButtonColors[appearance] || controlButtonColors.default};
-  transition: background-color 120ms ease;
-  color: ${({ appearance }) =>
-    lighten(0.3, controlButtonColors[appearance] || controlButtonColors.default)};
+  border-radius: ${buttonBorderRadius - buttonBorderSize}px;
+  background-color: ${({ appearance }) => buttonColors[appearance] || buttonColors.default};
+  transition: background-color 120ms ease, border-color 120ms ease;
+  color: ${({ appearance }) => lighten(0.3, buttonColors[appearance] || buttonColors.default)};
   &::before {
+    /* Border */
     content: "";
     box-sizing: border-box;
-    width: calc(100% - 4px);
-    height: calc(100% - 4px);
+    width: calc(100% + ${buttonBorderSize * 2}px);
+    height: calc(100% + ${buttonBorderSize * 2}px);
     position: absolute;
-    top: 2px;
-    left: 2px;
-    border-radius: 10px;
-    border: 2px solid ${({ theme }) => theme.background};
+    top: -${buttonBorderSize}px;
+    left: -${buttonBorderSize}px;
+    border-radius: ${buttonBorderRadius}px;
+    border: 2px solid ${({ appearance }) => buttonColors[appearance] || buttonColors.default};
     z-index: 1;
   }
   &:active {
-    ${({ appearance }) =>
-      darken(0.15, controlButtonColors[appearance] || controlButtonColors.default)};
+    background-color: ${({ appearance }) =>
+      darken(0.15, buttonColors[appearance] || buttonColors.default)};
+    color: ${({ appearance }) => darken(0.05, buttonColors[appearance] || buttonColors.default)};
+    &::before {
+      border-color: ${({ appearance }) =>
+        darken(0.15, buttonColors[appearance] || buttonColors.default)};
+    }
   }
   &:disabled {
     background-color: #333;
     color: #777;
+    &::before {
+      border-color: #333;
+    }
   }
 `;
-ControlButton.defaultProps = {
+Button.defaultProps = {
   appearance: "default"
 };

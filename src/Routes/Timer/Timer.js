@@ -88,12 +88,12 @@ export default function() {
       <S.LowerDivision>
         {state === "running" ? (
           <>
-            <S.ControlButton onClick={() => addLeft(-10)}>
+            <S.Button appearance="minus" onClick={() => addLeft(-10)}>
               <FontAwesomeIcon icon={faMinus} />
-            </S.ControlButton>
-            <S.ControlButton onClick={() => addLeft(+10)}>
+            </S.Button>
+            <S.Button appearance="plus" onClick={() => addLeft(+10)}>
               <FontAwesomeIcon icon={faPlus} />
-            </S.ControlButton>
+            </S.Button>
           </>
         ) : (
           <>
@@ -101,10 +101,10 @@ export default function() {
             <div />
           </>
         )}
-        <S.ControlButton disabled={state === "stop"} onClick={resetTimer}>
+        <S.Button disabled={state === "stop"} onClick={resetTimer}>
           <FontAwesomeIcon icon={faTimes} />
-        </S.ControlButton>
-        <S.ControlButton
+        </S.Button>
+        <S.Button
           disabled={total === 0}
           appearance={state !== "running" ? "start" : "stop"}
           onClick={state !== "running" ? startTimer : pauseTimer}
@@ -114,7 +114,7 @@ export default function() {
           ) : (
             <FontAwesomeIcon icon={faPause} />
           )}
-        </S.ControlButton>
+        </S.Button>
       </S.LowerDivision>
     </S.Container>
   );
