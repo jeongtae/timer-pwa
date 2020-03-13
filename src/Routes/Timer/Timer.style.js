@@ -2,7 +2,7 @@ import styled, { keyframes, css } from "styled-components";
 import { lighten, darken, rgba } from "polished";
 import picker from "Components/Picker";
 
-// const mediaIsLandscape = "screen and (orientation: landscape) and (max-height: 600px)";
+const mediaIsLandscape = "screen and (orientation: landscape) and (max-height: 600px)";
 
 const blinkKeyframe = keyframes`
   from {
@@ -44,14 +44,6 @@ export const UpperDivision = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: center;
-  align-content: stretch;
-`;
-
-export const LowerDivision = styled.div`
-  flex: 1 60px;
-  display: flex;
-  padding: 0 5vw;
-  justify-content: space-between;
   align-content: stretch;
 `;
 
@@ -111,6 +103,38 @@ export const Timer = styled.span`
   align-items: center;
   font-size: ${({ small }) => (small ? 24 : 30)}vw;
   font-weight: lighter;
+`;
+
+export const LowerDivision = styled.div`
+  flex: 1 auto;
+  display: grid;
+
+  grid-template: 70px 70px / 1fr 1fr;
+  padding: 0 10vw;
+  place-items: center center;
+  @media ${mediaIsLandscape} {
+    grid-template: 70px / 1fr 1fr 1fr 1fr;
+    & > *:nth-child(1) {
+      order: 2;
+    }
+    & > *:nth-child(2) {
+      order: 3;
+    }
+    & > *:nth-child(3) {
+      order: 1;
+    }
+    & > *:nth-child(4) {
+      order: 4;
+    }
+  }
+  @media not ${mediaIsLandscape} {
+    & > *:nth-child(odd) {
+      justify-self: start;
+    }
+    & > *:nth-child(even) {
+      justify-self: end;
+    }
+  }
 `;
 
 const controlButtonColors = {

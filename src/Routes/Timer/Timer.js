@@ -86,19 +86,24 @@ export default function() {
         )}
       </S.UpperDivision>
       <S.LowerDivision>
-        <S.ControlButton disabled={state === "stop"} onClick={resetTimer}>
-          <FontAwesomeIcon icon={faTimes} />
-        </S.ControlButton>
-        {state === "running" && (
+        {state === "running" ? (
           <>
-            <S.ControlButton onClick={() => addLeft(10)}>
-              <FontAwesomeIcon icon={faPlus} />
-            </S.ControlButton>
             <S.ControlButton onClick={() => addLeft(-10)}>
               <FontAwesomeIcon icon={faMinus} />
             </S.ControlButton>
+            <S.ControlButton onClick={() => addLeft(+10)}>
+              <FontAwesomeIcon icon={faPlus} />
+            </S.ControlButton>
+          </>
+        ) : (
+          <>
+            <div />
+            <div />
           </>
         )}
+        <S.ControlButton disabled={state === "stop"} onClick={resetTimer}>
+          <FontAwesomeIcon icon={faTimes} />
+        </S.ControlButton>
         <S.ControlButton
           disabled={total === 0}
           appearance={state !== "running" ? "start" : "stop"}
