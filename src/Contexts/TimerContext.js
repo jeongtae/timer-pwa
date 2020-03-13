@@ -1,13 +1,22 @@
 import createContext from "./createContext";
 
+const LS_TIME = "timerTime";
+
+function saveTime(seconds) {
+  window.localStorage.setItem(LS_TIME, seconds);
+}
+
+function loadTime() {
+  return Number.parseInt(window.localStorage?.getItem(LS_TIME) || "60");
+}
+
 let loopId = 0;
 let addedLeft = 0;
-
 export const { useContext: useTimerContext, ContextProvider: TimerProvider } = createContext(
   {
     // states
-    total: 3661,
-    left: 3661,
+    total: loadTime(),
+    left: loadTime(),
     elapsed: 0,
     addedLeft: 0,
     state: "stop"
@@ -19,6 +28,7 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       if (state === "stop") {
         const newTotal = (total % 3600) + hours * 3600;
         setMultiple({ total: newTotal, left: newTotal, elapsed: 0 });
+        saveTime(newTotal);
       }
     },
     setTimerMinutes(states, minutes) {
@@ -26,6 +36,7 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       if (state === "stop") {
         const newTotal = total - (total % 3600) + minutes * 60 + (total % 60);
         setMultiple({ total: newTotal, left: newTotal, elapsed: 0 });
+        saveTime(newTotal);
       }
     },
     setTimerSeconds(states, seconds) {
@@ -33,6 +44,7 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       if (state === "stop") {
         const newTotal = total - (total % 60) + seconds;
         setMultiple({ total: newTotal, left: newTotal, elapsed: 0 });
+        saveTime(newTotal);
       }
     },
     addLeft(states, seconds) {
