@@ -13,11 +13,8 @@
     "polished": "^3.4.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.1",
-    "react-use": "^13.27.0",
     "styled-components": "^5.0.1",
-    "styled-props": "^1.1.2",
     "styled-reset": "^4.1.0",
     "typescript": "^3.8.2"
   },
