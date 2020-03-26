@@ -2,8 +2,6 @@ import React, { useRef } from "react";
 import * as S from "./Timer.style";
 import { useTimerContext } from "Contexts";
 import { PickerItem } from "Components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faPlay, faPause, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const getHours = totalSeconds => Math.floor(totalSeconds / 3600);
 const getMinutes = totalSeconds => Math.floor(totalSeconds / 60) % 60;
@@ -88,12 +86,8 @@ export default function() {
       <S.LowerDivision>
         {state === "running" ? (
           <>
-            <S.Button appearance="minus" onClick={() => addLeft(-10)}>
-              <FontAwesomeIcon icon={faMinus} />
-            </S.Button>
-            <S.Button appearance="plus" onClick={() => addLeft(+10)}>
-              <FontAwesomeIcon icon={faPlus} />
-            </S.Button>
+            <S.Button appearance="minus" onClick={() => addLeft(-10)} />
+            <S.Button appearance="plus" onClick={() => addLeft(+10)} />
           </>
         ) : (
           <>
@@ -101,20 +95,12 @@ export default function() {
             <div />
           </>
         )}
-        <S.Button disabled={state === "stop"} onClick={resetTimer}>
-          <FontAwesomeIcon icon={faTimes} />
-        </S.Button>
+        <S.Button disabled={state === "stop"} appearance="reset" onClick={resetTimer} />
         <S.Button
           disabled={total === 0}
           appearance={state !== "running" ? "start" : "stop"}
           onClick={state !== "running" ? startTimer : pauseTimer}
-        >
-          {state !== "running" ? (
-            <FontAwesomeIcon icon={faPlay} />
-          ) : (
-            <FontAwesomeIcon icon={faPause} />
-          )}
-        </S.Button>
+        />
       </S.LowerDivision>
     </S.Container>
   );
