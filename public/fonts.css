@@ -7,4 +7,14 @@
   src: url(./fonts/fa-solid-900.eot), url(./fonts/fa-solid-900.woff) format("woff"),
     url(./fonts/fa-solid-900.woff2) format("woff2");
 }
+
+/* Quicksand */
+@font-face {
+  font-family: "Quicksand";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  /* src: url(https://fonts.gstatic.com/s/quicksand/v20/6xK-dSZaM9iE8KbpRA_LJ3z8mH9BOJvgkCEv58a-xDwxUD2GFw.woff)
+    format("woff"); */
+  src: url(./fonts/quicksand-600.woff) format("woff");
 }
