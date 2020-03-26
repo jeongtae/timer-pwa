@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "Font Awesome Solid";
+  font-style: normal;
+  font-weight: 900;
+  src: url(./fonts/fa-solid/fa-solid-900.eot),
+    url(./fonts/fa-solid/fa-solid-900.woff) format("woff"),
+    url(./fonts/fa-solid/fa-solid-900.woff2) format("woff2");
+  font-display: swap;
+}
