@@ -110,33 +110,67 @@ export const Timer = styled.div`
   align-items: center;
   font-family: "Courier Prime";
   font-size: ${({ digitsCount, colonsCount, hasMinus }) =>
-    85 / (digitsCount * 0.5 + colonsCount * 0.3 + (hasMinus && 0.4))}vw;
+    85 / (digitsCount * 0.5 + colonsCount * 0.3 + (hasMinus && 0.5))}vw;
 `;
 
-export const TimerDigit = styled.div`
+const TimerContentBase = styled.div`
   width: 0.5em;
   height: 0;
+  position: relative;
   line-height: 0;
-  display: flex;
-  justify-content: center;
+  &::before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    -webkit-text-stroke: 10px ${({ theme }) => theme.background};
+  }
+  &::after {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 2;
+  }
 `;
 
-export const TimerColon = styled.div`
+export const TimerDigit = styled(TimerContentBase)`
+  width: 0.5em;
+  &::before {
+    content: "${({ digit }) => digit}";
+  }
+  &::after {
+    content: "${({ digit }) => digit}";
+  }
+`;
+
+export const TimerColon = styled(TimerContentBase)`
   width: 0.3em;
-  height: 0;
-  line-height: 0;
   position: relative;
   top: -0.05em;
-  display: flex;
-  justify-content: center;
+  &::before {
+    content: ":";
+  }
+  &::after {
+    content: ":";
+  }
 `;
 
-export const TimerMinus = styled.div`
-  width: 0.4em;
-  height: 0;
-  line-height: 0;
-  display: flex;
-  justify-content: center;
+export const TimerMinus = styled(TimerContentBase)`
+  width: 0.5em;
+  &::before {
+    content: "-";
+  }
+  &::after {
+    content: "-";
+  }
 `;
 
 export const LowerDivision = styled.div`

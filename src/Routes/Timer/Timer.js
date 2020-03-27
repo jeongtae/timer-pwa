@@ -70,23 +70,23 @@ export default function() {
             colonsCount={leftHours > 0 ? 2 : 1}
             hasMinus={leftIsNegative}
           >
-            {leftIsNegative && <S.TimerMinus>-</S.TimerMinus>}
+            {leftIsNegative && <S.TimerMinus />}
             {leftHours > 0 && (
               <>
                 {leftHours
                   .toString()
                   .split("")
                   .map((digit, idx) => (
-                    <S.TimerDigit key={idx}>{digit}</S.TimerDigit>
+                    <S.TimerDigit key={idx} digit={digit}></S.TimerDigit>
                   ))}
-                <S.TimerColon>:</S.TimerColon>
+                <S.TimerColon />
               </>
             )}
-            <S.TimerDigit>{Math.floor(leftMinutes / 10)}</S.TimerDigit>
-            <S.TimerDigit>{leftMinutes % 10}</S.TimerDigit>
-            <S.TimerColon>:</S.TimerColon>
-            <S.TimerDigit>{Math.floor(leftSeconds / 10)}</S.TimerDigit>
-            <S.TimerDigit>{leftSeconds % 10}</S.TimerDigit>
+            <S.TimerDigit digit={Math.floor(leftMinutes / 10)} />
+            <S.TimerDigit digit={leftMinutes % 10} />
+            <S.TimerColon />
+            <S.TimerDigit digit={Math.floor(leftSeconds / 10)} />
+            <S.TimerDigit digit={leftSeconds % 10} />
           </S.Timer>
         )}
       </S.UpperDivision>
