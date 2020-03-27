@@ -120,7 +120,7 @@ const TimerContentBase = styled.div`
     z-index: 1;
     display: flex;
     justify-content: center;
-    -webkit-text-stroke: 10px ${({ theme }) => theme.background};
+    -webkit-text-stroke: 15px ${({ theme }) => theme.background};
   }
   &::after {
     width: 100%;
@@ -223,7 +223,7 @@ export const Button = styled.button`
     top: 0;
     left: 0;
     z-index: 1;
-    -webkit-text-stroke: 10px ${({ theme }) => theme.background};
+    -webkit-text-stroke: 15px ${({ theme }) => theme.background};
   }
   &::after {
     content: "${({ styled: s }) => button[s].icon}";
