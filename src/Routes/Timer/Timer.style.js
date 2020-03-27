@@ -108,7 +108,7 @@ export const Timer = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: Quicksand;
+  font-family: "Courier Prime";
   font-size: ${({ small }) => (small ? 24 : 30)}vw;
   font-weight: lighter;
 `;
@@ -145,11 +145,11 @@ export const LowerDivision = styled.div`
 `;
 
 const button = {
-  start: { color: "#2d2", icon: "\\f04b" },
-  stop: { color: "#f90", icon: "\\f04c" },
-  reset: { color: "#ccc", icon: "\\f00d" },
-  minus: { color: "#d22", icon: "\\f068" },
-  plus: { color: "#09f", icon: "\\f067" }
+  start: { color: "green", icon: "\\f04b" },
+  stop: { color: "orange", icon: "\\f04c" },
+  reset: { color: "gray", icon: "\\f00d" },
+  minus: { color: "red", icon: "\\f068" },
+  plus: { color: "blue", icon: "\\f067" }
 };
 export const Button = styled.button`
   all: unset;
@@ -160,7 +160,7 @@ export const Button = styled.button`
   font-size: 50px;
   text-align: center;
   line-height: 72px;
-  -webkit-text-fill-color: ${({ styled: s }) => button[s].color};
+  -webkit-text-fill-color: ${({ theme, styled: s }) => theme[button[s].color]};
   transition: color 60ms linear;
   &::before {
     content: "${({ styled: s }) => button[s].icon}";
@@ -170,7 +170,7 @@ export const Button = styled.button`
     top: 0;
     left: 0;
     z-index: 1;
-    -webkit-text-stroke: 10px black;
+    -webkit-text-stroke: 10px ${({ theme }) => theme.background};
   }
   &::after {
     content: "${({ styled: s }) => button[s].icon}";
@@ -182,15 +182,15 @@ export const Button = styled.button`
     z-index: 2;
   }
   &:disabled {
-    -webkit-text-fill-color: #444;
+    -webkit-text-fill-color: ${({ theme }) => theme.disabled}
   }
   @media (hover) {
     &:hover {
-      -webkit-text-fill-color: ${({ styled: s }) => lighten(0.25, button[s].color)};
+      -webkit-text-fill-color: ${({ theme, styled: s }) => lighten(0.25, theme[button[s].color])};
     }
   }
   &:active {
-    -webkit-text-fill-color: ${({ styled: s }) => darken(0.2, button[s].color)};
+    -webkit-text-fill-color: ${({ theme, styled: s }) => darken(0.2, theme[button[s].color])};
   }
 `;
 Button.defaultProps = {
