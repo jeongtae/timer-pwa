@@ -7,26 +7,6 @@ const getHours = totalSeconds => Math.floor(totalSeconds / 3600);
 const getMinutes = totalSeconds => Math.floor(totalSeconds / 60) % 60;
 const getSeconds = totalSeconds => totalSeconds % 60;
 
-const format = totalSeconds => {
-  const isNegative = totalSeconds < 0;
-  if (isNegative) {
-    totalSeconds = -totalSeconds;
-  }
-  const [h, m, s] = [
-    getHours(totalSeconds),
-    getMinutes(totalSeconds),
-    getSeconds(totalSeconds)
-  ].map(num => num.toString());
-  let result = `${h.padStart(2, "0")}:${m.padStart(2, "0")}:${s.padStart(2, "0")}`;
-  if (h === "0") {
-    result = result.slice(3);
-  }
-  if (isNegative) {
-    result = "-" + result;
-  }
-  return result;
-};
-
 const MemoPicker = React.memo(
   S.Picker,
   ({ selectedValue: prev }, { selectedValue: next }) => prev === next
@@ -49,6 +29,11 @@ export default function() {
     }
   } = useTimerContext();
   const pickersRef = useRef();
+
+  const leftIsNegative = left < 0;
+  const leftHours = getHours(Math.abs(left));
+  const leftMinutes = getMinutes(Math.abs(left));
+  const leftSeconds = getSeconds(Math.abs(left));
 
   return (
     <S.Container blink={state === "done"}>
@@ -80,7 +65,29 @@ export default function() {
             </MemoPicker>
           </S.Pickers>
         ) : (
-          <S.Timer small={left >= 3600}>{format(left)}</S.Timer>
+          <S.Timer
+            digitsCount={4 + (leftHours > 0 && leftHours.toString().length)}
+            colonsCount={leftHours > 0 ? 2 : 1}
+            hasMinus={leftIsNegative}
+          >
+            {leftIsNegative && <S.TimerMinus>-</S.TimerMinus>}
+            {leftHours > 0 && (
+              <>
+                {leftHours
+                  .toString()
+                  .split("")
+                  .map((digit, idx) => (
+                    <S.TimerDigit key={idx}>{digit}</S.TimerDigit>
+                  ))}
+                <S.TimerColon>:</S.TimerColon>
+              </>
+            )}
+            <S.TimerDigit>{Math.floor(leftMinutes / 10)}</S.TimerDigit>
+            <S.TimerDigit>{leftMinutes % 10}</S.TimerDigit>
+            <S.TimerColon>:</S.TimerColon>
+            <S.TimerDigit>{Math.floor(leftSeconds / 10)}</S.TimerDigit>
+            <S.TimerDigit>{leftSeconds % 10}</S.TimerDigit>
+          </S.Timer>
         )}
       </S.UpperDivision>
       <S.LowerDivision>

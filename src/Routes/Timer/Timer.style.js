@@ -104,13 +104,33 @@ export const Picker = styled(picker)`
   height: 200px;
 `;
 
-export const Timer = styled.span`
+export const Timer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Courier Prime";
-  font-size: ${({ small }) => (small ? 24 : 30)}vw;
-  font-weight: lighter;
+  font-size: ${({ digitsCount, colonsCount, hasMinus }) =>
+    85 / (digitsCount * 0.5 + colonsCount * 0.3 + (hasMinus && 0.4))}vw;
+`;
+
+export const TimerDigit = styled.div`
+  width: 0.5em;
+  display: flex;
+  justify-content: center;
+`;
+
+export const TimerColon = styled.div`
+  width: 0.3em;
+  position: relative;
+  top: -0.05em;
+  display: flex;
+  justify-content: center;
+`;
+
+export const TimerMinus = styled.div`
+  width: 0.4em;
+  display: flex;
+  justify-content: center;
 `;
 
 export const LowerDivision = styled.div`
