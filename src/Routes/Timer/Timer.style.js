@@ -7,19 +7,15 @@ const mediaIsLandscape = "screen and (orientation: landscape) and (max-height: 6
 const blinkKeyframe = keyframes`
   from {
     background: white;
-    color: black;
   }
   50% {
     background: unset;
-    color: unset;
   }
   90% {
     background: unset;
-    color: unset;
   }
   to {
     background: white;
-    color: black;
   }
 `;
 export const Container = styled.div`
