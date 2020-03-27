@@ -4,9 +4,6 @@ import reset from "styled-reset";
 export default createGlobalStyle`
   ${reset};
   html {
-    /* position: relative; */
-    /* top: env(safe-area-inset-top); */
-    /* height: 100%; */
     height: calc(100% + env(safe-area-inset-top));
     background: black;
   }
