@@ -4,20 +4,14 @@ import picker from "Components/Picker";
 
 const mediaIsLandscape = "screen and (orientation: landscape) and (max-height: 600px)";
 
-const blinkKeyframe = keyframes`
-  from {
-    background: white;
-  }
-  50% {
-    background: unset;
-  }
-  90% {
-    background: unset;
-  }
-  to {
-    background: white;
-  }
+export const ProgressBackground = styled.div`
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 1.5;
+  background: ${({ theme }) => theme.background};
 `;
+
 export const Container = styled.div`
   height: 100%;
   display: flex;
@@ -28,11 +22,6 @@ export const Container = styled.div`
   padding-top: env(safe-area-inset-top);
   padding-right: env(safe-area-inset-right);
   padding-bottom: env(safe-area-inset-bottom);
-  ${({ blink }) =>
-    blink &&
-    css`
-      animation: ${blinkKeyframe} 1s ease 0s infinite normal;
-    `}
 `;
 
 export const UpperDivision = styled.div`
