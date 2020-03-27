@@ -23,9 +23,7 @@ export default createGlobalStyle`
     font-family: ${({ theme }) => theme.font};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* touch-action: none; */
-    *::selection {
-      background-color: transparent;
-    }
+    touch-action: none;
+    user-select: none;
   }
 `;
