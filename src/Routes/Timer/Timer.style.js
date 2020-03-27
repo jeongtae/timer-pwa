@@ -115,12 +115,16 @@ export const Timer = styled.div`
 
 export const TimerDigit = styled.div`
   width: 0.5em;
+  height: 0;
+  line-height: 0;
   display: flex;
   justify-content: center;
 `;
 
 export const TimerColon = styled.div`
   width: 0.3em;
+  height: 0;
+  line-height: 0;
   position: relative;
   top: -0.05em;
   display: flex;
@@ -129,6 +133,8 @@ export const TimerColon = styled.div`
 
 export const TimerMinus = styled.div`
   width: 0.4em;
+  height: 0;
+  line-height: 0;
   display: flex;
   justify-content: center;
 `;
