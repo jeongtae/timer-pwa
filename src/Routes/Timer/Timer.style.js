@@ -9,8 +9,16 @@ export const ProgressBackground = styled.div`
   height: 100%;
   position: fixed;
   z-index: 1.5;
-  background: ${({ theme }) => theme.background};
+  background: ${({ theme }) => theme.foreground};
+  transform: scaleY(${({ value }) => value});
+  @media ${mediaIsLandscape} {
+    transform: scaleX(${({ value }) => value});
+  }
+  transform-origin: left bottom;
 `;
+ProgressBackground.defaultProps = {
+  value: 1.0
+};
 
 export const Container = styled.div`
   height: 100%;

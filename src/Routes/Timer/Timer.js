@@ -37,7 +37,7 @@ export default function() {
 
   return (
     <>
-      <S.ProgressBackground />
+      <S.ProgressBackground value={Math.min(1, elapsed / (total + addedLeft))} />
       <S.Container blink={state === "done"}>
         <S.UpperDivision>
           {state === "stop" ? (
