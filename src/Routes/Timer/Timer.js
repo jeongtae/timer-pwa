@@ -86,8 +86,8 @@ export default function() {
       <S.LowerDivision>
         {state === "running" ? (
           <>
-            <S.Button appearance="minus" onClick={() => addLeft(-10)} />
-            <S.Button appearance="plus" onClick={() => addLeft(+10)} />
+            <S.Button styled="minus" onClick={() => addLeft(-10)} />
+            <S.Button styled="plus" onClick={() => addLeft(+10)} />
           </>
         ) : (
           <>
@@ -95,10 +95,10 @@ export default function() {
             <div />
           </>
         )}
-        <S.Button disabled={state === "stop"} appearance="reset" onClick={resetTimer} />
+        <S.Button disabled={state === "stop"} styled="reset" onClick={resetTimer} />
         <S.Button
           disabled={total === 0}
-          appearance={state !== "running" ? "start" : "stop"}
+          styled={state !== "running" ? "start" : "stop"}
           onClick={state !== "running" ? startTimer : pauseTimer}
         />
       </S.LowerDivision>

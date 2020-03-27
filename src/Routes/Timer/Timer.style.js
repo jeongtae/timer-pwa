@@ -52,6 +52,7 @@ export const Pickers = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: Quicksand;
   &::before {
     /* Gradients */
     content: "";
@@ -92,6 +93,12 @@ export const Pickers = styled.div`
   `} 200ms ease 0s 1;
 `;
 
+export const PickerColon = styled.div`
+  &::after {
+    content: ":";
+  }
+`;
+
 export const Picker = styled(picker)`
   width: 70px;
   height: 200px;
@@ -101,6 +108,7 @@ export const Timer = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: Quicksand;
   font-size: ${({ small }) => (small ? 24 : 30)}vw;
   font-weight: lighter;
 `;
@@ -136,60 +144,55 @@ export const LowerDivision = styled.div`
   }
 `;
 
-const buttonColors = {
-  default: "#777",
-  start: "#2a2",
-  stop: "#c80",
-  minus: "#9e3d2e",
-  plus: "#10639e"
+const button = {
+  start: { color: "#2d2", icon: "\\f04b" },
+  stop: { color: "#f90", icon: "\\f04c" },
+  reset: { color: "#ccc", icon: "\\f00d" },
+  minus: { color: "#d22", icon: "\\f068" },
+  plus: { color: "#09f", icon: "\\f067" }
 };
-const buttonBorderSize = 4;
-const buttonBorderRadius = 12;
 export const Button = styled.button`
   all: unset;
-  width: ${90 - buttonBorderSize * 2}px;
-  height: ${60 - buttonBorderSize * 2}px;
-  margin: ${buttonBorderSize * 2}px;
+  width: 72px;
+  height: 72px;
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  font-size: 30px;
-  border: none;
-  border-radius: ${buttonBorderRadius - buttonBorderSize}px;
-  background-color: ${({ appearance }) => buttonColors[appearance] || buttonColors.default};
-  transition: background-color 120ms ease, border-color 120ms ease;
-  color: ${({ appearance }) => lighten(0.3, buttonColors[appearance] || buttonColors.default)};
+  font-family: "Font Awesome Solid";
+  font-size: 50px;
+  text-align: center;
+  line-height: 72px;
+  -webkit-text-fill-color: ${({ styled: s }) => button[s].color};
+  transition: color 60ms linear;
   &::before {
-    /* Border */
-    content: "";
-    box-sizing: border-box;
-    width: calc(100% + ${buttonBorderSize * 2}px);
-    height: calc(100% + ${buttonBorderSize * 2}px);
+    content: "${({ styled: s }) => button[s].icon}";
+    width: 100%;
+    height: 100%;
     position: absolute;
-    top: -${buttonBorderSize}px;
-    left: -${buttonBorderSize}px;
-    border-radius: ${buttonBorderRadius}px;
-    border: 2px solid ${({ appearance }) => buttonColors[appearance] || buttonColors.default};
+    top: 0;
+    left: 0;
     z-index: 1;
+    -webkit-text-stroke: 10px black;
   }
-  &:active {
-    background-color: ${({ appearance }) =>
-      darken(0.15, buttonColors[appearance] || buttonColors.default)};
-    color: ${({ appearance }) => darken(0.05, buttonColors[appearance] || buttonColors.default)};
-    &::before {
-      border-color: ${({ appearance }) =>
-        darken(0.15, buttonColors[appearance] || buttonColors.default)};
-    }
+  &::after {
+    content: "${({ styled: s }) => button[s].icon}";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
   }
   &:disabled {
-    background-color: #333;
-    color: #777;
-    &::before {
-      border-color: #333;
+    -webkit-text-fill-color: #444;
+  }
+  @media (hover) {
+    &:hover {
+      -webkit-text-fill-color: ${({ styled: s }) => lighten(0.25, button[s].color)};
     }
+  }
+  &:active {
+    -webkit-text-fill-color: ${({ styled: s }) => darken(0.2, button[s].color)};
   }
 `;
 Button.defaultProps = {
-  appearance: "default"
+  styled: "reset"
 };
