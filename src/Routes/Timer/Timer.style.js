@@ -8,7 +8,6 @@ export const ProgressBackground = styled.div`
   width: 100%;
   height: 100%;
   position: fixed;
-  z-index: 1.5;
   background: ${({ theme }) => theme.foreground};
   transform-origin: left bottom;
   ${({ disabled, value }) =>
