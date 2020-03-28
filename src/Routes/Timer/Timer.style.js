@@ -180,6 +180,14 @@ export const TimerMinus = styled(TimerContentBase)`
   }
 `;
 
+export const MiddleDivision = styled.div`
+  flex: 1 100px;
+  background: red;
+  @media ${mediaIsLandscape} {
+    display: none;
+  }
+`;
+
 export const LowerDivision = styled.div`
   flex: 1 auto;
   display: grid;

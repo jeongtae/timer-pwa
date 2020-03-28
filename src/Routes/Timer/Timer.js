@@ -98,6 +98,7 @@ export default function() {
             </S.Timer>
           )}
         </S.UpperDivision>
+        <S.MiddleDivision></S.MiddleDivision>
         <S.LowerDivision>
           {state === "running" ? (
             <>
