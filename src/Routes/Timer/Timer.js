@@ -35,9 +35,15 @@ export default function() {
   const leftMinutes = getMinutes(Math.abs(left));
   const leftSeconds = getSeconds(Math.abs(left));
 
+  const currentProgress = Math.min(1.0, elapsed / (total + addedLeft));
+  const nextProgress = Math.min(1.0, (elapsed + 1) / (total + addedLeft));
+
   return (
     <>
-      <S.ProgressBackground value={Math.min(1, elapsed / (total + addedLeft))} />
+      <S.ProgressBackground
+        value={state === "pause" ? currentProgress : nextProgress}
+        disabled={state === "stop"}
+      />
       <S.Container blink={state === "done"}>
         <S.UpperDivision>
           {state === "stop" ? (

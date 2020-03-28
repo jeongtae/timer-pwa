@@ -10,14 +10,29 @@ export const ProgressBackground = styled.div`
   position: fixed;
   z-index: 1.5;
   background: ${({ theme }) => theme.foreground};
-  transform: scaleY(${({ value }) => value});
-  @media ${mediaIsLandscape} {
-    transform: scaleX(${({ value }) => value});
-  }
   transform-origin: left bottom;
+  ${({ disabled, value }) =>
+    disabled
+      ? css`
+          opacity: 0;
+          transform: scaleY(0);
+          @media ${mediaIsLandscape} {
+            transform: scaleX(0);
+          }
+        `
+      : css`
+          opacity: ${value};
+          transform: scaleY(${value});
+          @media ${mediaIsLandscape} {
+            transform: scaleX(${value});
+          }
+
+          transition: transform 1s linear, opacity 1s linear;
+        `}
 `;
 ProgressBackground.defaultProps = {
-  value: 1.0
+  value: 1.0,
+  disabled: false
 };
 
 export const Container = styled.div`
