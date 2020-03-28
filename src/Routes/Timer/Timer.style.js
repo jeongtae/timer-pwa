@@ -100,7 +100,9 @@ export const Pickers = styled.div`
   `} 200ms ease 0s 1;
 `;
 
-export const PickerColon = styled.div`
+export const PickerColon = styled.span`
+  position: relative;
+  top: -0.05em;
   &::after {
     content: ":";
   }

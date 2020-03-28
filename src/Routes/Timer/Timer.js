@@ -56,7 +56,7 @@ export default function() {
                     </PickerItem>
                   ))}
                 </MemoPicker>
-                :
+                <S.PickerColon />
                 <MemoPicker selectedValue={getMinutes(total)} onChangeValue={setTimerMinutes}>
                   {zeroTo59.map((v, i) => (
                     <PickerItem value={v} key={i}>
@@ -64,7 +64,7 @@ export default function() {
                     </PickerItem>
                   ))}
                 </MemoPicker>
-                :
+                <S.PickerColon />
                 <MemoPicker selectedValue={getSeconds(total)} onChangeValue={setTimerSeconds}>
                   {zeroTo59.map((v, i) => (
                     <PickerItem value={v} key={i}>
