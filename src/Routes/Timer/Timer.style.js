@@ -49,7 +49,7 @@ export const Container = styled.div`
 export const UpperDivision = styled.div`
   flex: 2 200px;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   justify-content: center;
   align-content: stretch;
 `;
@@ -109,6 +109,14 @@ export const PickerColon = styled.div`
 export const Picker = styled(picker)`
   width: 70px;
   height: 200px;
+`;
+
+export const ToolBar = styled.div`
+  height: 120px;
+  background: red;
+  @media ${mediaIsLandscape} {
+    display: none;
+  }
 `;
 
 export const Timer = styled.div`
@@ -177,14 +185,6 @@ export const TimerMinus = styled(TimerContentBase)`
   }
   &::after {
     content: "-";
-  }
-`;
-
-export const MiddleDivision = styled.div`
-  flex: 1 100px;
-  background: red;
-  @media ${mediaIsLandscape} {
-    display: none;
   }
 `;
 

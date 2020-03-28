@@ -47,31 +47,34 @@ export default function() {
       <S.Container blink={state === "done"}>
         <S.UpperDivision>
           {state === "stop" ? (
-            <S.Pickers ref={pickersRef}>
-              <MemoPicker selectedValue={getHours(total)} onChangeValue={setTimerHours}>
-                {zeroTo23.map((v, i) => (
-                  <PickerItem value={v} key={i}>
-                    {v}
-                  </PickerItem>
-                ))}
-              </MemoPicker>
-              :
-              <MemoPicker selectedValue={getMinutes(total)} onChangeValue={setTimerMinutes}>
-                {zeroTo59.map((v, i) => (
-                  <PickerItem value={v} key={i}>
-                    {v}
-                  </PickerItem>
-                ))}
-              </MemoPicker>
-              :
-              <MemoPicker selectedValue={getSeconds(total)} onChangeValue={setTimerSeconds}>
-                {zeroTo59.map((v, i) => (
-                  <PickerItem value={v} key={i}>
-                    {v}
-                  </PickerItem>
-                ))}
-              </MemoPicker>
-            </S.Pickers>
+            <>
+              <S.Pickers ref={pickersRef}>
+                <MemoPicker selectedValue={getHours(total)} onChangeValue={setTimerHours}>
+                  {zeroTo23.map((v, i) => (
+                    <PickerItem value={v} key={i}>
+                      {v}
+                    </PickerItem>
+                  ))}
+                </MemoPicker>
+                :
+                <MemoPicker selectedValue={getMinutes(total)} onChangeValue={setTimerMinutes}>
+                  {zeroTo59.map((v, i) => (
+                    <PickerItem value={v} key={i}>
+                      {v}
+                    </PickerItem>
+                  ))}
+                </MemoPicker>
+                :
+                <MemoPicker selectedValue={getSeconds(total)} onChangeValue={setTimerSeconds}>
+                  {zeroTo59.map((v, i) => (
+                    <PickerItem value={v} key={i}>
+                      {v}
+                    </PickerItem>
+                  ))}
+                </MemoPicker>
+              </S.Pickers>
+              <S.ToolBar>Toolbar</S.ToolBar>
+            </>
           ) : (
             <S.Timer
               digitsCount={4 + (leftHours > 0 && leftHours.toString().length)}
@@ -98,7 +101,6 @@ export default function() {
             </S.Timer>
           )}
         </S.UpperDivision>
-        <S.MiddleDivision></S.MiddleDivision>
         <S.LowerDivision>
           {state === "running" ? (
             <>
