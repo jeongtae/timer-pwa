@@ -13,6 +13,36 @@ const TimeStorage = (function IIFE() {
   };
 })();
 
+const RecentsStorage = (function IIFE() {
+  const LS_KEY = "timerRecents";
+  let loadCache = LocalStorage.get(LS_KEY, []);
+  function save(recents) {
+    loadCache = recents;
+    LocalStorage.set(LS_KEY, recents);
+  }
+  return {
+    load() {
+      return loadCache;
+    },
+    saveOne(seconds) {
+      const recents = this.load();
+      const duplicatedIndex = recents.indexOf(seconds);
+      if (duplicatedIndex >= 0) {
+        recents.splice(duplicatedIndex, 1);
+      }
+      recents.splice(0, 0, seconds);
+      save(recents);
+    },
+    deleteOne(seconds) {
+      const recents = this.load();
+      const deletingIndex = recents.indexOf(seconds);
+      if (deletingIndex >= 0) {
+        recents.splice(deletingIndex, 1);
+        save(recents);
+      }
+    }
+  };
+})();
 
 let loopId = 0;
 let addedLeft = 0;
