@@ -71,22 +71,6 @@ export default function() {
                 </MemoPicker>
               </S.Pickers>
               <S.ToolBar>
-                <S.ToolBarItem>
-                  <S.ToolBarItemTimeButton>1:23:45</S.ToolBarItemTimeButton>
-                  <S.ToolBarItemDeleteButton />
-                </S.ToolBarItem>
-                <S.ToolBarItem>
-                  <S.ToolBarItemTimeButton>10:34</S.ToolBarItemTimeButton>
-                  <S.ToolBarItemDeleteButton />
-                </S.ToolBarItem>
-                <S.ToolBarItem>
-                  <S.ToolBarItemTimeButton>00:12</S.ToolBarItemTimeButton>
-                  <S.ToolBarItemDeleteButton />
-                </S.ToolBarItem>
-                <S.ToolBarItem>
-                  <S.ToolBarItemTimeButton>21:08:12</S.ToolBarItemTimeButton>
-                  <S.ToolBarItemDeleteButton />
-                </S.ToolBarItem>
               </S.ToolBar>
             </>
           ) : (
