@@ -5,6 +5,9 @@ import { defaultTheme } from "Theme";
 import GlobalStyleInjection from "./global.style";
 import { Timer } from "Routes";
 
+// Allows all elements can use :active styles
+document.addEventListener("touchstart", () => {}, true);
+
 const MultiProvider = ({ providers = [], children }) => {
   const reducer = (previous, provider) => React.createElement(provider, { children: previous });
   const reduced = providers.reduce(reducer, children);

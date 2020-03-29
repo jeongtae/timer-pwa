@@ -4,6 +4,11 @@ import picker from "Components/Picker";
 
 const mediaIsLandscape = "screen and (orientation: landscape) and (max-height: 600px)";
 
+const Button = styled.button`
+  all: unset;
+  -webkit-tap-highlight-color: transparent;
+`;
+
 export const ProgressBackground = styled.div`
   width: 100%;
   height: 100%;
@@ -141,8 +146,7 @@ export const ToolBarItem = styled.div`
   }
 `;
 
-export const ToolBarItemTimeButton = styled.button`
-  all: unset;
+export const ToolBarItemTimeButton = styled(Button)`
   padding: 0.4rem;
   padding-left: 0.6rem;
   padding-right: 0.2rem;
@@ -158,8 +162,7 @@ export const ToolBarItemTimeButton = styled.button`
   }
 `;
 
-export const ToolBarItemDeleteButton = styled.button`
-  all: unset;
+export const ToolBarItemDeleteButton = styled(Button)`
   height: 100%;
   padding-left: 0.2rem;
   padding-right: 0.6rem;
@@ -285,8 +288,7 @@ const button = {
   minus: { color: "red", icon: "\\f068" },
   plus: { color: "blue", icon: "\\f067" }
 };
-export const ControlButton = styled.button`
-  all: unset;
+export const ControlButton = styled(Button)`
   width: 72px;
   height: 72px;
   position: relative;
