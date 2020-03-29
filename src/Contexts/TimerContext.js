@@ -1,13 +1,31 @@
 import createContext from "./createContext";
 
+const LocalStorage = {
+  get(key, fallback = null) {
+    try {
+      const json = window.localStorage.getItem(key);
+      return JSON.parse(json);
+    } catch {
+      return fallback;
+    }
+  },
+  set(key, value) {
+    try {
+      const json = JSON.stringify(value);
+      window.localStorage.setItem(key, json);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+};
+
 const LS_TIME = "timerTime";
-
 function saveTime(seconds) {
-  window.localStorage.setItem(LS_TIME, seconds);
+  LocalStorage.set(LS_TIME, seconds);
 }
-
 function loadTime() {
-  return Number.parseInt(window.localStorage?.getItem(LS_TIME) || "60");
+  return LocalStorage.get(LS_TIME, 330);
 }
 
 let loopId = 0;
