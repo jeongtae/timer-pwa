@@ -1,22 +1,26 @@
 import createContext from "./createContext";
 import { LocalStorage } from "Utils";
 
+const TimeStorage = (function IIFE() {
+  const LS_KEY = "timerTime";
+  return {
+    save(seconds) {
+      LocalStorage.set(LS_KEY, seconds);
+    },
+    load() {
+      return LocalStorage.get(LS_KEY, 330);
+    }
+  };
+})();
 
-const LS_TIME = "timerTime";
-function saveTime(seconds) {
-  LocalStorage.set(LS_TIME, seconds);
-}
-function loadTime() {
-  return LocalStorage.get(LS_TIME, 330);
-}
 
 let loopId = 0;
 let addedLeft = 0;
 export const { useContext: useTimerContext, ContextProvider: TimerProvider } = createContext(
   {
     // states
-    total: loadTime(),
-    left: loadTime(),
+    total: TimeStorage.load(),
+    left: TimeStorage.load(),
     elapsed: 0,
     addedLeft: 0,
     state: "stop"
@@ -28,7 +32,7 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       if (state === "stop") {
         const newTotal = (total % 3600) + hours * 3600;
         setMultiple({ total: newTotal, left: newTotal, elapsed: 0 });
-        saveTime(newTotal);
+        TimeStorage.save(newTotal);
       }
     },
     setTimerMinutes(states, minutes) {
@@ -36,7 +40,7 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       if (state === "stop") {
         const newTotal = total - (total % 3600) + minutes * 60 + (total % 60);
         setMultiple({ total: newTotal, left: newTotal, elapsed: 0 });
-        saveTime(newTotal);
+        TimeStorage.save(newTotal);
       }
     },
     setTimerSeconds(states, seconds) {
@@ -44,7 +48,7 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       if (state === "stop") {
         const newTotal = total - (total % 60) + seconds;
         setMultiple({ total: newTotal, left: newTotal, elapsed: 0 });
-        saveTime(newTotal);
+        TimeStorage.save(newTotal);
       }
     },
     addLeft(states, seconds) {
