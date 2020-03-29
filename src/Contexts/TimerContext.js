@@ -31,6 +31,7 @@ const RecentsStorage = (function IIFE() {
         recents.splice(duplicatedIndex, 1);
       }
       recents.splice(0, 0, seconds);
+      recents = recents.slice(0, 5);
       save(recents);
     },
     deleteOne(seconds) {
