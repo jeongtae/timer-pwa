@@ -1,27 +1,6 @@
 import createContext from "./createContext";
+import { LocalStorage } from "Utils";
 
-const LocalStorage = {
-  get(key, fallback = null) {
-    try {
-      const json = window.localStorage.getItem(key);
-      if (json == null) {
-        return fallback;
-      }
-      return JSON.parse(json);
-    } catch {
-      return fallback;
-    }
-  },
-  set(key, value) {
-    try {
-      const json = JSON.stringify(value);
-      window.localStorage.setItem(key, json);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-};
 
 const LS_TIME = "timerTime";
 function saveTime(seconds) {
