@@ -53,7 +53,8 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
     left: TimeStorage.load(),
     elapsed: 0,
     addedLeft: 0,
-    state: "stop"
+    state: "stop",
+    recents: RecentsStorage.load()
   },
   {
     // actions
@@ -85,12 +86,14 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       addedLeft += seconds;
     },
     startTimer(states) {
-      const { state, setState, left, total, setMultiple } = states;
+      const { state, setState, left, total, setMultiple, setRecents } = states;
       let seconds;
       if (state === "pause") {
         seconds = left - addedLeft;
       } else {
         // stop or done
+        RecentsStorage.saveOne(total);
+        setRecents([...RecentsStorage.load()]);
         seconds = total;
         addedLeft = 0;
       }
