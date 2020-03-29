@@ -2,10 +2,7 @@ import React, { useRef } from "react";
 import * as S from "./Timer.style";
 import { useTimerContext } from "Contexts";
 import { PickerItem } from "Components";
-
-const getHours = totalSeconds => Math.floor(totalSeconds / 3600);
-const getMinutes = totalSeconds => Math.floor(totalSeconds / 60) % 60;
-const getSeconds = totalSeconds => totalSeconds % 60;
+import { Time } from "Utils";
 
 const MemoPicker = React.memo(
   S.Picker,
@@ -31,9 +28,9 @@ export default function() {
   const pickersRef = useRef();
 
   const leftIsNegative = left < 0;
-  const leftHours = getHours(Math.abs(left));
-  const leftMinutes = getMinutes(Math.abs(left));
-  const leftSeconds = getSeconds(Math.abs(left));
+  const leftHours = Time.getHours(Math.abs(left));
+  const leftMinutes = Time.getMinutes(Math.abs(left));
+  const leftSeconds = Time.getSeconds(Math.abs(left));
 
   const currentProgress = Math.min(1.0, elapsed / (total + addedLeft));
   const nextProgress = Math.min(1.0, (elapsed + 1) / (total + addedLeft));
@@ -49,7 +46,7 @@ export default function() {
           {state === "stop" ? (
             <>
               <S.Pickers ref={pickersRef}>
-                <MemoPicker selectedValue={getHours(total)} onChangeValue={setTimerHours}>
+                <MemoPicker selectedValue={Time.getHours(total)} onChangeValue={setTimerHours}>
                   {zeroTo23.map((v, i) => (
                     <PickerItem value={v} key={i}>
                       {v}
@@ -57,7 +54,7 @@ export default function() {
                   ))}
                 </MemoPicker>
                 <S.PickerColon />
-                <MemoPicker selectedValue={getMinutes(total)} onChangeValue={setTimerMinutes}>
+                <MemoPicker selectedValue={Time.getMinutes(total)} onChangeValue={setTimerMinutes}>
                   {zeroTo59.map((v, i) => (
                     <PickerItem value={v} key={i}>
                       {v}
@@ -65,7 +62,7 @@ export default function() {
                   ))}
                 </MemoPicker>
                 <S.PickerColon />
-                <MemoPicker selectedValue={getSeconds(total)} onChangeValue={setTimerSeconds}>
+                <MemoPicker selectedValue={Time.getSeconds(total)} onChangeValue={setTimerSeconds}>
                   {zeroTo59.map((v, i) => (
                     <PickerItem value={v} key={i}>
                       {v}
