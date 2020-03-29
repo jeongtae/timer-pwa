@@ -4,6 +4,9 @@ const LocalStorage = {
   get(key, fallback = null) {
     try {
       const json = window.localStorage.getItem(key);
+      if (json == null) {
+        return fallback;
+      }
       return JSON.parse(json);
     } catch {
       return fallback;
