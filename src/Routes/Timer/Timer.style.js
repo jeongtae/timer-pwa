@@ -119,9 +119,10 @@ export const Picker = styled(picker)`
 `;
 
 export const ToolBar = styled.div`
+  height: 5rem;
   display: flex;
   justify-content: space-evenly;
-  align-content: flex-end;
+  align-content: flex-start;
   flex-wrap: wrap;
   @media ${mediaIsLandscape} {
     display: none;
@@ -132,7 +133,8 @@ export const ToolBarItem = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0.5rem;
+  margin: 0.5rem;
+  margin-bottom: 0;
   color: #bbb;
   background: #444;
   border-radius: 5px;
