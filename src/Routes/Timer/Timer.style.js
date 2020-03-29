@@ -118,7 +118,7 @@ export const Picker = styled(picker)`
   height: 200px;
 `;
 
-export const ToolBar = styled.div`
+export const RecentsBar = styled.div`
   height: 5rem;
   display: flex;
   justify-content: space-evenly;
@@ -129,7 +129,7 @@ export const ToolBar = styled.div`
   }
 `;
 
-export const ToolBarItem = styled.div`
+export const RecentsBarItem = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -148,7 +148,7 @@ export const ToolBarItem = styled.div`
   }
 `;
 
-export const ToolBarItemTimeButton = styled(Button)`
+export const RecentsBarItemTimeButton = styled(Button)`
   padding: 0.4rem;
   padding-left: 0.6rem;
   padding-right: 0.2rem;
@@ -164,7 +164,7 @@ export const ToolBarItemTimeButton = styled(Button)`
   }
 `;
 
-export const ToolBarItemDeleteButton = styled(Button)`
+export const RecentsBarItemDeleteButton = styled(Button)`
   height: 100%;
   padding-left: 0.2rem;
   padding-right: 0.6rem;

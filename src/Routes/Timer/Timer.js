@@ -72,16 +72,16 @@ export default function() {
                   ))}
                 </MemoPicker>
               </S.Pickers>
-              <S.ToolBar>
+              <S.RecentsBar>
                 {recents.map((recent, index) => (
-                  <S.ToolBarItem key={index}>
-                    <S.ToolBarItemTimeButton onClick={() => setTimer(recent)}>
+                  <S.RecentsBarItem key={index}>
+                    <S.RecentsBarItemTimeButton onClick={() => setTimer(recent)}>
                       {Time.format(recent)}
-                    </S.ToolBarItemTimeButton>
-                    <S.ToolBarItemDeleteButton onClick={() => deleteRecent(recent)} />
-                  </S.ToolBarItem>
+                    </S.RecentsBarItemTimeButton>
+                    <S.RecentsBarItemDeleteButton onClick={() => deleteRecent(recent)} />
+                  </S.RecentsBarItem>
                 ))}
-              </S.ToolBar>
+              </S.RecentsBar>
             </>
           ) : (
             <S.Timer
