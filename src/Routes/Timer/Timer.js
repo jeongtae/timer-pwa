@@ -14,15 +14,17 @@ const zeroTo23 = zeroTo59.slice(0, 24);
 
 export default function() {
   const {
-    states: { state, elapsed, left, total, addedLeft },
+    states: { state, elapsed, left, total, addedLeft, recents },
     actions: {
+      setTimer,
       setTimerHours,
       setTimerMinutes,
       setTimerSeconds,
       pauseTimer,
       startTimer,
       resetTimer,
-      addLeft
+      addLeft,
+      deleteRecent
     }
   } = useTimerContext();
   const pickersRef = useRef();
@@ -71,6 +73,14 @@ export default function() {
                 </MemoPicker>
               </S.Pickers>
               <S.ToolBar>
+                {recents.map((recent, index) => (
+                  <S.ToolBarItem key={index}>
+                    <S.ToolBarItemTimeButton onClick={() => setTimer(recent)}>
+                      {Time.format(recent)}
+                    </S.ToolBarItemTimeButton>
+                    <S.ToolBarItemDeleteButton onClick={() => deleteRecent(recent)} />
+                  </S.ToolBarItem>
+                ))}
               </S.ToolBar>
             </>
           ) : (
