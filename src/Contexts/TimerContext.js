@@ -123,6 +123,11 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
       clearInterval(loopId);
       loopId = 0;
       addedLeft = 0;
+    },
+    deleteRecent(states, seconds) {
+      const { setRecents } = states;
+      RecentsStorage.deleteOne(seconds);
+      setRecents([...RecentsStorage.load()]);
     }
   }
 );
