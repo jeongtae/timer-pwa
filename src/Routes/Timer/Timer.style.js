@@ -285,7 +285,7 @@ const button = {
   minus: { color: "red", icon: "\\f068" },
   plus: { color: "blue", icon: "\\f067" }
 };
-export const Button = styled.button`
+export const ControlButton = styled.button`
   all: unset;
   width: 72px;
   height: 72px;
@@ -327,6 +327,6 @@ export const Button = styled.button`
     -webkit-text-fill-color: ${({ theme, styled: s }) => darken(0.2, theme[button[s].color])};
   }
 `;
-Button.defaultProps = {
+ControlButton.defaultProps = {
   styled: "reset"
 };

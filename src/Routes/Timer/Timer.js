@@ -121,8 +121,8 @@ export default function() {
         <S.LowerDivision>
           {state === "running" ? (
             <>
-              <S.Button styled="minus" onClick={() => addLeft(-10)} />
-              <S.Button styled="plus" onClick={() => addLeft(+10)} />
+              <S.ControlButton styled="minus" onClick={() => addLeft(-10)} />
+              <S.ControlButton styled="plus" onClick={() => addLeft(+10)} />
             </>
           ) : (
             <>
@@ -130,8 +130,8 @@ export default function() {
               <div />
             </>
           )}
-          <S.Button disabled={state === "stop"} styled="reset" onClick={resetTimer} />
-          <S.Button
+          <S.ControlButton disabled={state === "stop"} styled="reset" onClick={resetTimer} />
+          <S.ControlButton
             disabled={total === 0}
             styled={state !== "running" ? "start" : "stop"}
             onClick={state !== "running" ? startTimer : pauseTimer}
