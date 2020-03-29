@@ -114,10 +114,67 @@ export const Picker = styled(picker)`
 `;
 
 export const ToolBar = styled.div`
-  height: 120px;
-  background: red;
+  display: flex;
+  justify-content: space-evenly;
+  align-content: flex-end;
+  flex-wrap: wrap;
   @media ${mediaIsLandscape} {
     display: none;
+  }
+`;
+
+export const ToolBarItem = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+  color: #bbb;
+  background: #444;
+  border-radius: 5px;
+  @media (hover) {
+    &:hover {
+      background: ${lighten(0.1, "#444")};
+    }
+  }
+  &:active {
+    background: ${darken(0.1, "#444")};
+  }
+`;
+
+export const ToolBarItemTimeButton = styled.button`
+  all: unset;
+  padding: 0.4rem;
+  padding-left: 0.6rem;
+  padding-right: 0.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Quicksand Bold";
+  font-size: 1.125rem;
+  @media (hover) {
+    &:hover {
+      color: #fff;
+    }
+  }
+`;
+
+export const ToolBarItemDeleteButton = styled.button`
+  all: unset;
+  height: 100%;
+  padding-left: 0.2rem;
+  padding-right: 0.6rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:after {
+    content: "\f00d";
+    font-family: "Font Awesome Solid";
+    font-size: 0.9rem;
+  }
+  @media (hover) {
+    &:hover {
+      color: #f77;
+    }
   }
 `;
 
