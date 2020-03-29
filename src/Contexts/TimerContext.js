@@ -58,6 +58,13 @@ export const { useContext: useTimerContext, ContextProvider: TimerProvider } = c
   },
   {
     // actions
+    setTimer(states, seconds) {
+      const { state, setMultiple } = states;
+      if (state === "stop") {
+        setMultiple({ total: seconds, left: seconds, elapsed: 0 });
+        TimeStorage.save(seconds);
+      }
+    },
     setTimerHours(states, hours) {
       const { state, total, setMultiple } = states;
       if (state === "stop") {
