@@ -25,7 +25,7 @@ const RecentsStorage = (function IIFE() {
       return loadCache;
     },
     saveOne(seconds) {
-      const recents = this.load();
+      let recents = this.load();
       const duplicatedIndex = recents.indexOf(seconds);
       if (duplicatedIndex >= 0) {
         recents.splice(duplicatedIndex, 1);
