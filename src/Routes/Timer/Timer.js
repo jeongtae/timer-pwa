@@ -39,7 +39,7 @@ export default function() {
 
   return state === "stop" ? (
     <>
-      <S.Container blink={state === "done"}>
+      <S.Container>
         <S.UpperDivision>
           <S.Pickers ref={pickersRef}>
             <MemoPicker selectedValue={Time.getHours(total)} onChangeValue={setTimerHours}>
@@ -95,7 +95,7 @@ export default function() {
         value={state === "pause" ? currentProgress : nextProgress}
         disabled={state === "stop"}
       />
-      <S.Container blink={state === "done"}>
+      <S.Container>
         <S.UpperDivision>
           <S.Timer
             digitsCount={4 + (leftHours > 0 && leftHours.toString().length)}
