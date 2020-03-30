@@ -9,30 +9,20 @@ const Button = styled.button`
   -webkit-tap-highlight-color: transparent;
 `;
 
-export const ProgressBackground = styled.div`
+export const ProgressBackground = styled.div.attrs(({ style, value }) => ({
+  style: { ...style, opacity: value }
+}))`
   width: 100%;
   height: 100%;
   position: fixed;
   background: ${({ theme }) => theme.foreground};
   transform-origin: left bottom;
-  ${({ disabled, value }) =>
-    disabled
-      ? css`
-          opacity: 0;
-          transform: scaleY(0);
-          @media ${mediaIsLandscape} {
-            transform: scaleX(0);
-          }
-        `
-      : css`
-          opacity: ${value};
-          transform: scaleY(${value});
-          @media ${mediaIsLandscape} {
-            transform: scaleX(${value});
-          }
-
-          transition: transform 1s linear, opacity 1s linear;
-        `}
+  opacity: 0;
+  ${({ disabled }) =>
+    !disabled &&
+    css`
+      transition: opacity 0.9s linear;
+    `}
 `;
 ProgressBackground.defaultProps = {
   value: 1.0,
