@@ -56,6 +56,7 @@ export const RecentsBar = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-content: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   @media ${mediaIsLandscape} {
     display: none;
