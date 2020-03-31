@@ -1,16 +1,8 @@
 import React, { useRef } from "react";
 import * as S from "./Timer.style";
 import { useTimerContext } from "Contexts";
-import { PickerItem } from "Components";
+import { TimePicker, PickerItem } from "Components";
 import { Time } from "Utils";
-
-const MemoPicker = React.memo(
-  S.Picker,
-  ({ selectedValue: prev }, { selectedValue: next }) => prev === next
-);
-
-const zeroTo59 = [...Array(60).keys()];
-const zeroTo23 = zeroTo59.slice(0, 24);
 
 export default function() {
   const {
@@ -41,31 +33,14 @@ export default function() {
     <>
       <S.Container>
         <S.UpperDivision>
-          <S.Pickers ref={pickersRef}>
-            <MemoPicker selectedValue={Time.getHours(total)} onChangeValue={setTimerHours}>
-              {zeroTo23.map((v, i) => (
-                <PickerItem value={v} key={i}>
-                  {v}
-                </PickerItem>
-              ))}
-            </MemoPicker>
-            <S.PickerColon />
-            <MemoPicker selectedValue={Time.getMinutes(total)} onChangeValue={setTimerMinutes}>
-              {zeroTo59.map((v, i) => (
-                <PickerItem value={v} key={i}>
-                  {v}
-                </PickerItem>
-              ))}
-            </MemoPicker>
-            <S.PickerColon />
-            <MemoPicker selectedValue={Time.getSeconds(total)} onChangeValue={setTimerSeconds}>
-              {zeroTo59.map((v, i) => (
-                <PickerItem value={v} key={i}>
-                  {v}
-                </PickerItem>
-              ))}
-            </MemoPicker>
-          </S.Pickers>
+          <TimePicker
+            selectedHours={Time.getHours(total)}
+            selectedMinutes={Time.getMinutes(total)}
+            selectedSeconds={Time.getSeconds(total)}
+            onChangeHours={setTimerHours}
+            onChangeMinutes={setTimerMinutes}
+            onChangeSeconds={setTimerSeconds}
+          />
           <S.RecentsBar>
             {recents.map((recent, index) => (
               <S.RecentsBarItem key={index}>

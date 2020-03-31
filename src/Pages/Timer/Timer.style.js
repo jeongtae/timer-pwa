@@ -49,65 +49,6 @@ export const UpperDivision = styled.div`
   align-content: stretch;
 `;
 
-export const Pickers = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Quicksand;
-  &::before {
-    /* Gradients */
-    content: "";
-    width: 100%;
-    height: 200px;
-    position: absolute;
-    background-image: linear-gradient(
-        to bottom,
-        ${({ theme }) => rgba(theme.background, 1)},
-        ${({ theme }) => rgba(theme.background, 0.3)}
-      ),
-      linear-gradient(
-        to top,
-        ${({ theme }) => rgba(theme.background, 1)},
-        ${({ theme }) => rgba(theme.background, 0.3)}
-      );
-    background-position: top, bottom;
-    background-size: 100% calc(100px - 1.25em);
-    background-repeat: no-repeat;
-    pointer-events: none;
-    z-index: 2;
-  }
-  &::after {
-    /* Indicator */
-    content: "";
-    width: 210px;
-    height: 2.5em;
-    position: absolute;
-    box-sizing: border-box;
-    border: solid 1.5px ${({ theme }) => theme.foreground};
-    border-radius: 8px;
-    pointer-events: none;
-    z-index: 1;
-  }
-  animation: ${keyframes`
-    from { opacity: 0; }
-    to { opacity: 1; }
-  `} 200ms ease 0s 1;
-`;
-
-export const PickerColon = styled.span`
-  position: relative;
-  top: -0.05em;
-  &::after {
-    content: ":";
-  }
-`;
-
-export const Picker = styled(picker)`
-  width: 70px;
-  height: 200px;
-`;
-
 export const RecentsBar = styled.div`
   height: 5rem;
   display: flex;
