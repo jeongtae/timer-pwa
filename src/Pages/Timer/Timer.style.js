@@ -9,8 +9,8 @@ const Button = styled.button`
   -webkit-tap-highlight-color: transparent;
 `;
 
-export const ProgressBackground = styled.div.attrs(({ style, value }) => ({
-  style: { ...style, opacity: value }
+export const ProgressBackground = styled.div.attrs(({ style, value, disabled }) => ({
+  style: { ...style, opacity: disabled ? 0 : value }
 }))`
   width: 100%;
   height: 100%;
