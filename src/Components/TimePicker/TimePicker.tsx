@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { rgba } from "polished";
 import Picker, { PickerItem } from "Components/Picker";
-import { Time } from "Utils";
 
 const Pickers = styled.div`
   position: relative;

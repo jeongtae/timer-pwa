@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
+import React from "react";
 import * as S from "./Timer.style";
 import { useTimerContext } from "Contexts";
-import { TimePicker, PickerItem } from "Components";
+import { TimePicker } from "Components";
 import { Time } from "Utils";
 
 export default function() {

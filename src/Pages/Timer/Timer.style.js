@@ -1,6 +1,5 @@
 import styled, { keyframes, css } from "styled-components";
-import { lighten, darken, rgba } from "polished";
-import picker from "Components/Picker";
+import { lighten, darken } from "polished";
 
 const mediaIsLandscape = "screen and (orientation: landscape) and (max-height: 600px)";
 
