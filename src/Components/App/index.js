@@ -3,7 +3,7 @@ import { TimerProvider } from "Contexts";
 import { ThemeProvider } from "styled-components";
 import { defaultTheme } from "Theme";
 import GlobalStyleInjection from "./global.style";
-import { Timer } from "Routes";
+import { Timer } from "Pages";
 
 // Allows all elements can use :active styles
 document.addEventListener("touchstart", () => {}, true);
