@@ -9,25 +9,41 @@ const Button = styled.button`
   -webkit-tap-highlight-color: transparent;
 `;
 
-export const ProgressBackground = styled.div.attrs(({ style, value, disabled }) => ({
-  style: { ...style, opacity: disabled ? 0 : value }
-}))`
+export const ProgressBackground = styled.div`
   width: 100%;
   height: 100%;
   position: fixed;
   background: ${({ theme }) => theme.foreground};
-  transform-origin: left bottom;
-  opacity: 0;
+  transform-origin: bottom;
   pointer-events: none;
-  ${({ disabled }) =>
-    !disabled &&
+  ${({ from, to, duration, noscale, infinity }) =>
     css`
-      transition: opacity 0.9s linear;
+      opacity: ${to};
+      ${!noscale &&
+        css`
+          transform: scaleY(${to});
+        `}
+      animation: ${keyframes`
+        from {
+          opacity: ${from};
+          ${!noscale &&
+            css`
+              transform: scaleY(${from});
+            `}
+        } to {
+          opacity: ${to};
+          ${!noscale &&
+            css`
+              transform: scaleY(${to});
+            `}
+        }
+      `} ${duration} linear 0s ${infinity ? "infinite" : 1};
     `}
 `;
 ProgressBackground.defaultProps = {
-  value: 1.0,
-  disabled: false
+  from: 0,
+  to: 1,
+  duration: "1s"
 };
 
 export const Container = styled.div`
@@ -48,6 +64,13 @@ export const UpperDivision = styled.div`
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+`;
+
+export const FadingInDiv = styled.div`
+  animation: ${keyframes`
+    from { opacity: 0; }
+    to { opacity: 1; }
+  `} 300ms ease 0s 1;
 `;
 
 export const RecentsBar = styled.div`

@@ -30,32 +30,38 @@ export default function() {
 
   return (
     <>
-      <S.ProgressBackground
-        value={state === "pause" ? currentProgress : nextProgress}
-        disabled={state === "stop"}
-      />
+      {state !== "stop" &&
+        (state !== "done" ? (
+          <S.ProgressBackground from={currentProgress} to={nextProgress} duration={"1s"} />
+        ) : (
+          <S.ProgressBackground from={1} to={0.25} duration={"1s"} noscale infinity />
+        ))}
       <S.Container>
         <S.UpperDivision>
           {state === "stop" ? (
             <>
-              <TimePicker
-                selectedHours={Time.getHours(total)}
-                selectedMinutes={Time.getMinutes(total)}
-                selectedSeconds={Time.getSeconds(total)}
-                onChangeHours={setTimerHours}
-                onChangeMinutes={setTimerMinutes}
-                onChangeSeconds={setTimerSeconds}
-              />
-              <S.RecentsBar>
-                {recents.map((recent, index) => (
-                  <S.RecentsBarItem key={index}>
-                    <S.RecentsBarItemTimeButton onClick={() => setTimer(recent)}>
-                      {Time.format(recent)}
-                    </S.RecentsBarItemTimeButton>
-                    <S.RecentsBarItemDeleteButton onClick={() => deleteRecent(recent)} />
-                  </S.RecentsBarItem>
-                ))}
-              </S.RecentsBar>
+              <S.FadingInDiv>
+                <TimePicker
+                  selectedHours={Time.getHours(total)}
+                  selectedMinutes={Time.getMinutes(total)}
+                  selectedSeconds={Time.getSeconds(total)}
+                  onChangeHours={setTimerHours}
+                  onChangeMinutes={setTimerMinutes}
+                  onChangeSeconds={setTimerSeconds}
+                />
+              </S.FadingInDiv>
+              <S.FadingInDiv>
+                <S.RecentsBar>
+                  {recents.map((recent, index) => (
+                    <S.RecentsBarItem key={index}>
+                      <S.RecentsBarItemTimeButton onClick={() => setTimer(recent)}>
+                        {Time.format(recent)}
+                      </S.RecentsBarItemTimeButton>
+                      <S.RecentsBarItemDeleteButton onClick={() => deleteRecent(recent)} />
+                    </S.RecentsBarItem>
+                  ))}
+                </S.RecentsBar>
+              </S.FadingInDiv>
             </>
           ) : (
             <S.Timer
