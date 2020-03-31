@@ -47,10 +47,11 @@ export const UpperDivision = styled.div`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  align-content: stretch;
+  align-items: center;
 `;
 
 export const RecentsBar = styled.div`
+  max-width: 600px;
   height: 5rem;
   display: flex;
   justify-content: space-evenly;
