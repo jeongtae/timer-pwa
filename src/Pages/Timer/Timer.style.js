@@ -18,6 +18,7 @@ export const ProgressBackground = styled.div.attrs(({ style, value, disabled }) 
   background: ${({ theme }) => theme.foreground};
   transform-origin: left bottom;
   opacity: 0;
+  pointer-events: none;
   ${({ disabled }) =>
     !disabled &&
     css`
