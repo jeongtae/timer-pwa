@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/pwa-timer/static/css/main.09bcfab2.chunk.css",
+    "main.js": "/pwa-timer/static/js/main.ef1158f3.chunk.js",
+    "main.js.map": "/pwa-timer/static/js/main.ef1158f3.chunk.js.map",
+    "runtime-main.js": "/pwa-timer/static/js/runtime-main.86833dcc.js",
+    "runtime-main.js.map": "/pwa-timer/static/js/runtime-main.86833dcc.js.map",
+    "static/js/2.def1f26b.chunk.js": "/pwa-timer/static/js/2.def1f26b.chunk.js",
+    "static/js/2.def1f26b.chunk.js.map": "/pwa-timer/static/js/2.def1f26b.chunk.js.map",
+    "index.html": "/pwa-timer/index.html",
+    "precache-manifest.baf7ae91dbe7317050d6230a77b4aaf6.js": "/pwa-timer/precache-manifest.baf7ae91dbe7317050d6230a77b4aaf6.js",
+    "service-worker.js": "/pwa-timer/service-worker.js",
+    "static/css/main.09bcfab2.chunk.css.map": "/pwa-timer/static/css/main.09bcfab2.chunk.css.map",
+    "static/js/2.def1f26b.chunk.js.LICENSE.txt": "/pwa-timer/static/js/2.def1f26b.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.86833dcc.js",
+    "static/js/2.def1f26b.chunk.js",
+    "static/css/main.09bcfab2.chunk.css",
+    "static/js/main.ef1158f3.chunk.js"
+  ]
+}
