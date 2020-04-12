@@ -1,0 +1,35 @@
+/* Font Awesome Solid */
+@font-face {
+  font-family: "Font Awesome Solid";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url(./fonts/fa-solid-900.eot), url(./fonts/fa-solid-900.woff) format("woff"),
+    url(./fonts/fa-solid-900.woff2) format("woff2");
+}
+
+/* Quicksand */
+@font-face {
+  font-family: "Quicksand";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(./fonts/quicksand-600.woff) format("woff");
+}
+@font-face {
+  font-family: "Quicksand Bold";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(./fonts/quicksand-700.woff) format("woff");
+}
+
+/* Courier Prime */
+@font-face {
+  font-family: "Courier Prime";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local("Courier Prime Regular"), local("CourierPrime-Regular"),
+    url(./fonts/courier-prime-400.woff2) format("woff2");
+}
